@@ -1,0 +1,6 @@
+*.o
+build/
+*.rdb
+__pycache__/
+*.sqlite*
+.idea
