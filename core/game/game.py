@@ -29,6 +29,7 @@ class Game:
 class AnimalChessGame(Game):
     def __init__(self):
         super().__init__()
+        self.max_duration = 1800 # in seconds
 
     def new_game(self, player):
         self.player1 = player
@@ -73,6 +74,12 @@ class AnimalChessGame(Game):
             return True, player1
         return False, None
 
+    def within_game_time_limit(self):
+        if (datetime.datetime.now() - self.start_time).seconds < game.max_duration:
+            return True
+        else:
+            return False
+
 
 def parse_input_to_coords(user_inputs):
     coordinate = user_inputs.split(" ")
@@ -101,7 +108,7 @@ if __name__ == '__main__':
     player2.change_status()
 
     game.start_game()
-    while not game.check_win()[0]:
+    while not game.check_win()[0] and game.within_game_time_limit():
         print(game.board)
         coords = input("Click coordinate (x y), enter x [space] y\n")
         parse_successful, x, y = parse_input_to_coords(coords)
