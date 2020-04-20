@@ -28,71 +28,96 @@ class Piece:
         self.y = None
 
     def flip(self):
-        return
+        if self.status is 0:
+            print("flipped the card")
+            self.status = 1
 
-    def move(self):
-        return
+    def move(self, dest_x, dest_y):
+        pass
 
     def set_player(self, player):
         self.player = player
 
+    def get_status(self):
+        return self.status
+
     def __str__(self):
-        return "{}:{}:{}".format(self.status, self.player, self.animal)
+        if self.status == 0:
+            return "#####"
+        return "{}:{}".format(self.player, self.animal)
 
     def __repr__(self):
-        return "{}:{}:{}".format(self.status, self.player, self.animal)
+        return "{}:{}".format(self.player, self.animal)
 
 
-class ElephantCard(Piece):
+class AnimalChessPiece(Piece):
+    directions = {"up": [-1, 0], "down": [1, 0], "left": [0, -1], "right": [0, 1]}
+
+    def __init__(self, player):
+        super().__init__(player)
+
+    def move(self, dest_x, dest_y):
+        self.x = dest_x
+        self.y = dest_y
+
+
+class EmptyCard(AnimalChessPiece):
+    def __init__(self, player):
+        super().__init__(player)
+        self.animal = ""
+        self.index = -1
+
+
+class ElephantCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self.animal = "Elephant"
         self.index = 7
 
 
-class LionCard(Piece):
+class LionCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self.animal = "Lion"
         self.index = 6
 
 
-class TigerCard(Piece):
+class TigerCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self.animal = "Tiger"
         self.index = 5
 
 
-class LeopardCard(Piece):
+class LeopardCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self.animal = "Leopard"
         self.index = 4
 
 
-class WolfCard(Piece):
+class WolfCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self.animal = "Wolf"
         self.index = 3
 
 
-class DogCard(Piece):
+class DogCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self.animal = "Dog"
         self.index = 2
 
 
-class CatCard(Piece):
+class CatCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self.animal = "Cat"
         self.index = 1
 
 
-class RatCard(Piece):
+class RatCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self.animal = "Rat"
