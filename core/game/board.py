@@ -1,3 +1,8 @@
+import random
+
+from core.game.card import CardCollection
+
+
 class Board:
     def __init__(self):
         self.coordinates = None
@@ -24,3 +29,16 @@ class AnimalChessBoard(Board):
                             [None, None, None, None]]
         self.width = 4
         self.height = 4
+
+    def generate_board(self, player1, player2):
+        player1_cards = CardCollection(player1).cards
+        player2_cards = CardCollection(player2).cards
+
+        cards = []
+        cards.extend(player1_cards)
+        cards.extend(player2_cards)
+        random.shuffle(cards)
+
+        for r in range(len(self.coordinates)):
+            for c in range(len(self.coordinates[0])):
+                self.coordinates[r][c] = cards[r * self.width + c]

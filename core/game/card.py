@@ -21,8 +21,11 @@ class Piece:
         self.x = None
         self.y = None
 
-    def move(self, piece):
-        pass
+    def flip(self):
+        return
+
+    def move(self):
+        return
 
     def set_player(self, player):
         self.player = player
