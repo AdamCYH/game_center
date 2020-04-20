@@ -29,7 +29,7 @@ class Game:
 class AnimalChessGame(Game):
     def __init__(self):
         super().__init__()
-        self.max_duration = 1800  # in seconds
+        self.max_duration = 1800 # in seconds
 
     def new_game(self, player):
         self.player1 = player
