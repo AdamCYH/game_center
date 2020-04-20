@@ -1,5 +1,11 @@
-class CardCollection:
+class PieceCollection:
+    def __init__(self):
+        self.cards = None
+
+
+class AnimalChessPieceCollection(PieceCollection):
     def __init__(self, player):
+        super().__init__()
         self.cards = [ElephantCard(player),
                       LionCard(player),
                       TigerCard(player),
@@ -21,8 +27,11 @@ class Piece:
         self.x = None
         self.y = None
 
-    def move(self, piece):
-        pass
+    def flip(self):
+        return
+
+    def move(self):
+        return
 
     def set_player(self, player):
         self.player = player
