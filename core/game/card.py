@@ -1,51 +1,90 @@
-class Card:
+class CardCollection:
+    def __init__(self, player):
+        self.cards = [ElephantCard(player),
+                      LionCard(player),
+                      TigerCard(player),
+                      LeopardCard(player),
+                      WolfCard(player),
+                      DogCard(player),
+                      CatCard(player),
+                      RatCard(player)]
+
+
+class Piece:
     # Status 0  Hidden
     # Status 1  Shown
 
-    def __init__(self):
+    def __init__(self, player):
         self.animal = None
         self.status = 0
-        self.player = None
+        self.player = player
+        self.x = None
+        self.y = None
 
-    def move(self, card):
+    def move(self, piece):
         pass
 
+    def set_player(self, player):
+        self.player = player
 
-class ElephantCard(Card):
-    def __init__(self):
+    def __str__(self):
+        return str(self.player) + ":" + self.animal
+
+    def __repr__(self):
+        return str(self.player) + ":" + self.animal
+
+
+class ElephantCard(Piece):
+    def __init__(self, player):
+        super().__init__(player)
         self.animal = "Elephant"
+        self.index = 7
 
 
-class LionCard(Card):
-    def __init__(self):
+class LionCard(Piece):
+    def __init__(self, player):
+        super().__init__(player)
         self.animal = "Lion"
+        self.index = 6
 
 
-class TigerCard(Card):
-    def __init__(self):
+class TigerCard(Piece):
+    def __init__(self, player):
+        super().__init__(player)
         self.animal = "Tiger"
+        self.index = 5
 
 
-class LeopardCard(Card):
-    def __init__(self):
+class LeopardCard(Piece):
+    def __init__(self, player):
+        super().__init__(player)
         self.animal = "Leopard"
+        self.index = 4
 
 
-class WolfCard(Card):
-    def __init__(self):
+class WolfCard(Piece):
+    def __init__(self, player):
+        super().__init__(player)
         self.animal = "Wolf"
+        self.index = 3
 
 
-class dogCard(Card):
-    def __init__(self):
+class DogCard(Piece):
+    def __init__(self, player):
+        super().__init__(player)
         self.animal = "Dog"
+        self.index = 2
 
 
-class CatCard(Card):
-    def __init__(self):
+class CatCard(Piece):
+    def __init__(self, player):
+        super().__init__(player)
         self.animal = "Cat"
+        self.index = 1
 
 
-class RatCard(Card):
-    def __init__(self):
+class RatCard(Piece):
+    def __init__(self, player):
+        super().__init__(player)
         self.animal = "Rat"
+        self.index = 0
