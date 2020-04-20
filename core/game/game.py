@@ -27,6 +27,7 @@ class Game:
 
 
 class AnimalChessGame(Game):
+    directions = {"up", "down", "left", "right"}
     def __init__(self):
         super().__init__()
         self.max_duration = 1800 # in seconds
@@ -74,12 +75,44 @@ class AnimalChessGame(Game):
             return True, player1
         return False, None
 
+    def get_status(self, x, y):
+        return self.board.coordinates[x][y].status
+
+    def flip(self, x, y):
+        if self.get_status(x, y) is 0:
+            print("flipped the card")
+            self.board.coordinates[x][y].status = 1
+
+    def validate_direction(self, x, y, direction):
+        direction_lower_case = direction.lower()
+        if direction_lower_case not in AnimalChessGame.directions:
+            print("Invalid direction")
+            return False
+
+        if direction_lower_case == "up" and x == 0:
+            print("Cannot move beyond the board")
+            return False
+        elif direction_lower_case == "down" and x == 3:
+            print("Cannot move beyond the board")
+            return False
+        elif direction_lower_case == "left" and y == 0:
+            print("Cannot move beyond the board")
+            return False
+        elif direction_lower_case == "right" and y == 3:
+            print("Cannot move beyond the board")
+            return False
+
+        return True
+
+    def process_move(direction):
+        pass
+
+
     def within_game_time_limit(self):
         if (datetime.datetime.now() - self.start_time).seconds < game.max_duration:
             return True
         else:
             return False
-
 
 def parse_input_to_coords(user_inputs):
     coordinate = user_inputs.split(" ")
@@ -89,13 +122,22 @@ def parse_input_to_coords(user_inputs):
     try:
         x = int(coordinate[0])
         y = int(coordinate[1])
-        return True, x, y
+        return validate_coordinates_value(x, y)
     except TypeError:
         print("Please enter valid number")
         return False, 0, 0
     except ValueError:
         print("Please enter valid number123")
         return False, 0, 0
+
+
+def validate_coordinates_value(x, y):
+    if x >= 0 and x <= 3 and y >= 0 and y <= 3:
+        return True, x, y
+    else:
+        print("Coordinates entered is not on board")
+        return False, 0, 0
+
 
 
 if __name__ == '__main__':
@@ -108,9 +150,22 @@ if __name__ == '__main__':
     player2.change_status()
 
     game.start_game()
+
     while not game.check_win()[0] and game.within_game_time_limit():
+        print()
         print(game.board)
         coords = input("Click coordinate (x y), enter x [space] y\n")
         parse_successful, x, y = parse_input_to_coords(coords)
         if not parse_successful:
             continue
+        else:
+            if game.get_status(x, y) is 0:
+                game.flip(x, y)
+            else:
+                direction = input("Where would you like to move? Enter up, down, left, right")
+                if game.validate_direction(x, y, direction):
+                    continue
+                    # process_move(x, y, direction)
+
+
+
