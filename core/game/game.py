@@ -1,4 +1,7 @@
+import random
+
 from core.game.board import AnimalChessBoard
+from core.game.card import AnimalChessPieceCollection
 from core.game.player import Player
 
 
@@ -15,6 +18,9 @@ class Game:
         pass
 
     def start_game(self):
+        pass
+
+    def check_win(self):
         pass
 
 
@@ -36,7 +42,27 @@ class AnimalChessGame(Game):
         if not self.player1.ready or not self.player2.ready:
             return "Please click ready before starting."
         self.board = AnimalChessBoard()
-        self.board.generate_board(self.player1, self.player2)
+        self.generate_board()
+
+    def generate_board(self):
+        self.player1.piece_collection = AnimalChessPieceCollection(self.player1).cards
+        self.player2.piece_collection = AnimalChessPieceCollection(self.player2).cards
+
+        cards = []
+        cards.extend(self.player1.piece_collection)
+        cards.extend(self.player2.piece_collection)
+        random.shuffle(cards)
+
+        for r in range(len(self.board.coordinates)):
+            for c in range(len(self.board.coordinates[0])):
+                self.board.coordinates[r][c] = cards[r * self.board.width + c]
+
+    def check_win(self):
+        if len(self.player1.piece_collection) == 0:
+            return True, player2
+        if len(self.player2.piece_collection) == 0:
+            return False, player1
+        return False, None
 
 
 if __name__ == '__main__':
@@ -49,4 +75,6 @@ if __name__ == '__main__':
     player2.change_status()
 
     game.start_game()
-    print(game.board)
+    while not game.check_win()[0]:
+        print(game.board)
+        input("Click coordinate (x y), enter x [space] y\n")

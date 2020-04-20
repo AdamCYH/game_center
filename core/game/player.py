@@ -1,10 +1,11 @@
 class Player:
 
-    def __init__(self, id, name):
-        self.id = id
+    def __init__(self, user_id, name):
+        self.user_id = user_id
         self.name = name
         self.ready = False
         self.my_turn = False
+        self.piece_collection = None
         return
 
     def change_status(self):
