@@ -1,19 +1,19 @@
 class PieceCollection:
     def __init__(self):
-        self.cards = None
+        self.pieces = None
 
 
 class AnimalChessPieceCollection(PieceCollection):
     def __init__(self, player):
         super().__init__()
-        self.cards = [ElephantCard(player),
-                      LionCard(player),
-                      TigerCard(player),
-                      LeopardCard(player),
-                      WolfCard(player),
-                      DogCard(player),
-                      CatCard(player),
-                      RatCard(player)]
+        self.pieces = [ElephantCard(player),
+                       LionCard(player),
+                       TigerCard(player),
+                       LeopardCard(player),
+                       WolfCard(player),
+                       DogCard(player),
+                       CatCard(player),
+                       RatCard(player)]
 
 
 class Piece:
@@ -37,10 +37,10 @@ class Piece:
         self.player = player
 
     def __str__(self):
-        return str(self.player) + ":" + self.animal
+        return "{}:{}:{}".format(self.status, self.player, self.animal)
 
     def __repr__(self):
-        return str(self.player) + ":" + self.animal
+        return "{}:{}:{}".format(self.status, self.player, self.animal)
 
 
 class ElephantCard(Piece):
