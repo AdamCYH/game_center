@@ -69,6 +69,8 @@ class AnimalChessBoard(Board):
 
     def set_piece(self, piece, x, y):
         self.coordinates[x][y] = piece
+        piece.x = x
+        piece.y = y
 
     def process_piece_move(self, src_piece, dest_piece):
         fight_result = self.compare_rank(src_piece, dest_piece)

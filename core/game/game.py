@@ -139,3 +139,9 @@ if __name__ == '__main__':
                 player_turn = game.switch_turn()
 
         player_turn = game.switch_turn()
+
+    finish, winner = game.check_win()
+    if winner is None:
+        print("TIE!!!")
+    else:
+        print(winner.name + "is the winner, Congratulations!!!")
