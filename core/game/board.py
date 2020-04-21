@@ -79,6 +79,7 @@ class AnimalChessBoard(Board):
                 self.src_destroyed(src_piece)
             else:
                 self.destroy_both(src_piece, dest_piece)
+
         else:
             # board switch
 
@@ -96,6 +97,7 @@ class AnimalChessBoard(Board):
             return -1
         else:
             return 0
+
 
     def switch_position(self, src_piece, dest_piece):
         tmp_src_x = src_piece.x
