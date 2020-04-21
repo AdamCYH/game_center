@@ -48,15 +48,14 @@ class AnimalChessGame(Game):
         self.board.init_board(self.player1, self.player2)
         self.start_time = datetime.datetime.now()
         self.player1.my_turn = True
-
         return True
 
     def check_win(self):
-        if len(self.player1.piece_collection) == 0 and len(self.player2.piece_collection) == 0:
+        if len(self.player1.piece_collection.pieces) == 0 and len(self.player2.piece_collection) == 0:
             return True, None
-        if len(self.player1.piece_collection) == 0:
+        if len(self.player1.piece_collection.pieces) == 0:
             return True, player2
-        if len(self.player2.piece_collection) == 0:
+        if len(self.player2.piece_collection.pieces) == 0:
             return True, player1
         return False, None
 
@@ -92,6 +91,15 @@ class AnimalChessGame(Game):
             print("Coordinates entered is not on board")
             return False, 0, 0
 
+    def switch_turn(self):
+        if self.player1.my_turn:
+            turn = player2
+        else:
+            turn = player1
+        self.player1.my_turn = not self.player1.my_turn
+        self.player2.my_turn = not self.player2.my_turn
+        return turn
+
 
 if __name__ == '__main__':
     game = AnimalChessGame()
@@ -104,9 +112,13 @@ if __name__ == '__main__':
 
     game.start_game()
 
+    player_turn = player1
+
     while not game.check_win()[0] and game.within_game_time_limit():
         print()
         print(game.board)
+        print("Time remaining: {}".format(datetime.datetime.now() - game.start_time))
+        print("### {}'s turn ###".format(player_turn.name))
         coords = input("Click coordinate (x y), enter x [space] y\n")
         parse_successful, x, y = game.parse_input_to_coords(coords)
         if not parse_successful:
@@ -123,3 +135,7 @@ if __name__ == '__main__':
                     direction = input(
                         "Invalid move. Where would you like to move? Enter {}\n".format(movable_directions))
                 game.process_move(direction, piece)
+            else:
+                player_turn = game.switch_turn()
+
+        player_turn = game.switch_turn()

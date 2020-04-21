@@ -49,12 +49,12 @@ class AnimalChessBoard(Board):
         self.height = 4
 
     def init_board(self, player1, player2):
-        player1.piece_collection = AnimalChessPieceCollection(player1).pieces
-        player2.piece_collection = AnimalChessPieceCollection(player2).pieces
+        player1.piece_collection = AnimalChessPieceCollection(player1)
+        player2.piece_collection = AnimalChessPieceCollection(player2)
 
         cards = []
-        cards.extend(player1.piece_collection)
-        cards.extend(player2.piece_collection)
+        cards.extend(player1.piece_collection.pieces)
+        cards.extend(player2.piece_collection.pieces)
         random.shuffle(cards)
 
         for r in range(len(self.coordinates)):
@@ -71,12 +71,42 @@ class AnimalChessBoard(Board):
         self.coordinates[x][y] = piece
 
     def process_piece_move(self, src_piece, dest_piece):
-        # TODO If dest_piece is empty, set_piece
-        # If dest_piece is not empty, compare and replace the piece
+        fight_result = self.compare_rank(src_piece, dest_piece)
+        if fight_result == 1:
+            self.destroy(src_piece, dest_piece)
+        elif fight_result == -1:
+            self.get_destroyed(src_piece)
+        else:
+            self.destroy_both(src_piece, dest_piece)
+        src_piece.move(dest_piece.x, dest_piece.y)
 
+    @staticmethod
+    def compare_rank(src_piece, dest_piece):
+        # 1 src_piece > dest_piece
+        # 0 src_piece = dest_piece
+        # -1 src_piece < dest_piece
+        if src_piece.index > dest_piece.index \
+                or src_piece.index - dest_piece.index == (1 - AnimalChessPieceCollection.collection_size):
+            return 1
+        elif src_piece.index < dest_piece.index:
+            return -1
+        else:
+            return 0
+
+    def destroy(self, src_piece, dest_piece):
         self.set_piece(src_piece, dest_piece.x, dest_piece.y)
         self.set_piece(EmptyCard(None), src_piece.x, src_piece.y)
-        src_piece.move(dest_piece.x, dest_piece.y)
+        dest_piece.player.piece_collection.remove_piece_on_hand(dest_piece)
+
+    def get_destroyed(self, src_piece):
+        self.set_piece(EmptyCard(None), src_piece.x, src_piece.y)
+        src_piece.player.piece_collection.remove_piece_on_hand(src_piece)
+
+    def destroy_both(self, src_piece, dest_piece):
+        self.set_piece(EmptyCard(None), src_piece.x, src_piece.y)
+        self.set_piece(EmptyCard(None), dest_piece.x, dest_piece.y)
+        src_piece.player.piece_collection.remove_piece_on_hand(src_piece)
+        dest_piece.player.piece_collection.remove_piece_on_hand(dest_piece)
 
     def is_movable(self, src_piece, dest_x, dest_y):
         """
@@ -86,8 +116,11 @@ class AnimalChessBoard(Board):
         :param dest_y:
         :return:
         """
-        # TODO can only move if the destination position is empty or opponent's card
         if dest_x < 0 or dest_x >= self.width or dest_y < 0 or dest_y >= self.height:
+            return False
+        elif self.coordinates[dest_x][dest_y].status == 0:
+            return False
+        elif self.coordinates[dest_x][dest_y].player == src_piece.player:
             return False
         else:
             return True

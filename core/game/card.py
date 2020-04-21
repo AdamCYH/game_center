@@ -4,6 +4,8 @@ class PieceCollection:
 
 
 class AnimalChessPieceCollection(PieceCollection):
+    collection_size = 8
+
     def __init__(self, player):
         super().__init__()
         self.pieces = [ElephantCard(player),
@@ -14,6 +16,9 @@ class AnimalChessPieceCollection(PieceCollection):
                        DogCard(player),
                        CatCard(player),
                        RatCard(player)]
+
+    def remove_piece_on_hand(self, card):
+        self.pieces.remove(card)
 
 
 class Piece:
@@ -29,7 +34,6 @@ class Piece:
 
     def flip(self):
         if self.status is 0:
-            print("flipped the card")
             self.status = 1
 
     def move(self, dest_x, dest_y):
@@ -66,6 +70,7 @@ class EmptyCard(AnimalChessPiece):
         super().__init__(player)
         self.animal = ""
         self.index = -1
+        self.status = 1
 
 
 class ElephantCard(AnimalChessPiece):
