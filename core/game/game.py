@@ -51,7 +51,7 @@ class AnimalChessGame(Game):
         return True
 
     def check_win(self):
-        if len(self.player1.piece_collection.pieces) == 0 and len(self.player2.piece_collection) == 0:
+        if len(self.player1.piece_collection.pieces) == 0 and len(self.player2.piece_collection.pieces) == 0:
             return True, None
         if len(self.player1.piece_collection.pieces) == 0:
             return True, player2
@@ -117,7 +117,7 @@ if __name__ == '__main__':
     while not game.check_win()[0] and game.within_game_time_limit():
         print()
         print(game.board)
-        print("Time remaining: {}".format(datetime.datetime.now() - game.start_time))
+        print("Time remaining: {}".format(game.max_duration - (datetime.datetime.now() - game.start_time).seconds))
         print("### {}'s turn ###".format(player_turn.name))
         coords = input("Click coordinate (x y), enter x [space] y\n")
         parse_successful, x, y = game.parse_input_to_coords(coords)

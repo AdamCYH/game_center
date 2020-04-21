@@ -81,23 +81,22 @@ class AnimalChessBoard(Board):
                 self.destroy_both(src_piece, dest_piece)
 
         else:
-            # board switch
-
-
+            self.switch_position(src_piece, dest_piece)
 
     @staticmethod
     def compare_rank(src_piece, dest_piece):
         # 1 src_piece > dest_piece
         # 0 src_piece = dest_piece
         # -1 src_piece < dest_piece
-        if src_piece.index > dest_piece.index \
+
+        if AnimalChessPieceCollection.collection_size - 1 > src_piece.index - dest_piece.index > 0 \
                 or src_piece.index - dest_piece.index == (1 - AnimalChessPieceCollection.collection_size):
             return 1
-        elif src_piece.index < dest_piece.index:
+        elif src_piece.index < dest_piece.index \
+                or src_piece.index - dest_piece.index == AnimalChessPieceCollection.collection_size - 1:
             return -1
         else:
             return 0
-
 
     def switch_position(self, src_piece, dest_piece):
         tmp_src_x = src_piece.x
@@ -111,24 +110,23 @@ class AnimalChessBoard(Board):
         self.set_piece(src_piece, tmp_dest_x, tmp_dest_y)
         self.set_piece(dest_piece, tmp_src_x, tmp_src_y)
 
+    def replace_piece(self, new_piece, old_piece):
+        new_piece.x = old_piece.x
+        new_piece.y = old_piece.y
+        self.set_piece(new_piece, old_piece.x, old_piece.y)
 
     def destroy_dest(self, src_piece, dest_piece):
-
-        self.switch_position(src_piece, EmptyCard())
-
-        tmp_src_x = src_piece.x
-        tmp_src_y = src_piece.y
-        self.set_piece(src_piece, dest_piece.x, dest_piece.y)
-        self.set_piece(EmptyCard(), tmp_src_x, tmp_src_y)
+        self.switch_position(src_piece, dest_piece)
+        self.replace_piece(EmptyCard(), dest_piece)
         dest_piece.player.piece_collection.remove_piece_on_hand(dest_piece)
 
     def src_destroyed(self, src_piece):
-        self.set_piece(EmptyCard(), src_piece.x, src_piece.y)
+        self.replace_piece(EmptyCard(), src_piece)
         src_piece.player.piece_collection.remove_piece_on_hand(src_piece)
 
     def destroy_both(self, src_piece, dest_piece):
-        self.set_piece(EmptyCard(), src_piece.x, src_piece.y)
-        self.set_piece(EmptyCard(), dest_piece.x, dest_piece.y)
+        self.replace_piece(EmptyCard(), src_piece)
+        self.replace_piece(EmptyCard(), dest_piece)
         src_piece.player.piece_collection.remove_piece_on_hand(src_piece)
         dest_piece.player.piece_collection.remove_piece_on_hand(dest_piece)
 
