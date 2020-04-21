@@ -69,18 +69,20 @@ class AnimalChessBoard(Board):
 
     def set_piece(self, piece, x, y):
         self.coordinates[x][y] = piece
-        piece.x = x
-        piece.y = y
 
     def process_piece_move(self, src_piece, dest_piece):
-        fight_result = self.compare_rank(src_piece, dest_piece)
-        if fight_result == 1:
-            self.destroy(src_piece, dest_piece)
-        elif fight_result == -1:
-            self.get_destroyed(src_piece)
+        if not isinstance(dest_piece, EmptyCard):
+            fight_result = self.compare_rank(src_piece, dest_piece)
+            if fight_result == 1:
+                self.destroy_dest(src_piece, dest_piece)
+            elif fight_result == -1:
+                self.src_destroyed(src_piece)
+            else:
+                self.destroy_both(src_piece, dest_piece)
         else:
-            self.destroy_both(src_piece, dest_piece)
-        src_piece.move(dest_piece.x, dest_piece.y)
+            # board switch
+
+
 
     @staticmethod
     def compare_rank(src_piece, dest_piece):
@@ -95,18 +97,36 @@ class AnimalChessBoard(Board):
         else:
             return 0
 
-    def destroy(self, src_piece, dest_piece):
+    def switch_position(self, src_piece, dest_piece):
+        tmp_src_x = src_piece.x
+        tmp_src_y = src_piece.y
+        tmp_dest_x = dest_piece.x
+        tmp_dest_y = dest_piece.y
+
+        src_piece.move(tmp_dest_x, tmp_dest_y)
+        dest_piece.move(tmp_src_x, tmp_src_y)
+
+        self.set_piece(src_piece, tmp_dest_x, tmp_dest_y)
+        self.set_piece(dest_piece, tmp_src_x, tmp_src_y)
+
+
+    def destroy_dest(self, src_piece, dest_piece):
+
+        self.switch_position(src_piece, EmptyCard())
+
+        tmp_src_x = src_piece.x
+        tmp_src_y = src_piece.y
         self.set_piece(src_piece, dest_piece.x, dest_piece.y)
-        self.set_piece(EmptyCard(None), src_piece.x, src_piece.y)
+        self.set_piece(EmptyCard(), tmp_src_x, tmp_src_y)
         dest_piece.player.piece_collection.remove_piece_on_hand(dest_piece)
 
-    def get_destroyed(self, src_piece):
-        self.set_piece(EmptyCard(None), src_piece.x, src_piece.y)
+    def src_destroyed(self, src_piece):
+        self.set_piece(EmptyCard(), src_piece.x, src_piece.y)
         src_piece.player.piece_collection.remove_piece_on_hand(src_piece)
 
     def destroy_both(self, src_piece, dest_piece):
-        self.set_piece(EmptyCard(None), src_piece.x, src_piece.y)
-        self.set_piece(EmptyCard(None), dest_piece.x, dest_piece.y)
+        self.set_piece(EmptyCard(), src_piece.x, src_piece.y)
+        self.set_piece(EmptyCard(), dest_piece.x, dest_piece.y)
         src_piece.player.piece_collection.remove_piece_on_hand(src_piece)
         dest_piece.player.piece_collection.remove_piece_on_hand(dest_piece)
 
