@@ -1,3 +1,6 @@
+from core.game.player import Player
+
+
 class PieceCollection:
     def __init__(self):
         self.pieces = None
@@ -66,8 +69,9 @@ class AnimalChessPiece(Piece):
 
 
 class EmptyCard(AnimalChessPiece):
-    def __init__(self, player):
-        super().__init__(player)
+    def __init__(self):
+        default_player = Player("", "")
+        super().__init__(default_player)
         self.animal = ""
         self.index = -1
         self.status = 1
