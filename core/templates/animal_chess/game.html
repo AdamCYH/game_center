@@ -1,0 +1,14 @@
+
+
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block header %}
+{#    <link rel="stylesheet" href="{% static 'animal_chess/css/index.css' %}">#}
+{% endblock %}
+
+{% block content %}
+    <h1>Share the code to friend to play together {{ code }}</h1>
+{% include "animal_chess/board.html" %}
+{% endblock %}
