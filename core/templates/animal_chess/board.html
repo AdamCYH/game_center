@@ -1,59 +1,10 @@
 {% load static %}
 <table class="board">
-    <tr>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-    </tr>
-    <tr>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-    </tr>
-    <tr>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-    </tr>
-    <tr>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-        <td>
-            动物
-        </td>
-    </tr>
+    {% for row in board %}
+        <tr>
+        {% for col in row %}
+            <td>{{ col }}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
 </table>

@@ -21,5 +21,5 @@ from core import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', views.home_page, name='home-page'),
-    path('animal_chess/', include('core.urls')),
+    path('animal-chess/', include('core.urls')),
 ]

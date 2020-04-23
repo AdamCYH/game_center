@@ -1,0 +1,25 @@
+
+
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block header %}
+{#    <link rel="stylesheet" href="{% static 'animal_chess/css/index.css' %}">#}
+{% endblock %}
+
+{% block content %}
+    <h1>Please enter the code here</h1>
+    <form name="join_form" action="{% url 'animal-game' %}" method="POST">
+        <table>
+            <tr>
+                <td width="50">Game Code:</td>
+                <td><input type="text" name="code"></td>
+                <td><input type="submit" value="Join"></td>
+            </tr>
+
+        </table>
+
+        {% csrf_token %}
+    </form>
+{% endblock %}

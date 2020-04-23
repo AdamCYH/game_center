@@ -1,8 +1,12 @@
 import datetime
+import random
+import string
 
 from core.game.animal_chess.animal_chess_board import AnimalChessBoard
 from core.game.animal_chess.animal_chess_piece import AnimalChessPiece
 from core.game.game import Game
+
+ID_LENGTH = 5
 
 
 class AnimalChessGame(Game):
@@ -16,8 +20,9 @@ class AnimalChessGame(Game):
         self.start_time = None
 
     def new_game(self, player):
+        self.id = self.generate_id(ID_LENGTH)
         self.player1 = player
-
+        self.board = AnimalChessBoard()
         return
 
     def join_player(self, player):
@@ -28,7 +33,6 @@ class AnimalChessGame(Game):
             return "Waiting for player to join."
         if not self.player1.ready or not self.player2.ready:
             return "Please click ready before starting."
-        self.board = AnimalChessBoard()
         self.board.init_board(self.player1, self.player2)
         self.start_time = datetime.datetime.now()
         self.player1.my_turn = True
@@ -83,3 +87,8 @@ class AnimalChessGame(Game):
         self.player1.my_turn = not self.player1.my_turn
         self.player2.my_turn = not self.player2.my_turn
         return turn
+
+    @staticmethod
+    def generate_id(length):
+        return ''.join(random.choices(string.ascii_uppercase +
+                                      string.digits, k=length))

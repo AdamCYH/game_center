@@ -1,0 +1,25 @@
+
+
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block header %}
+    {#    <link rel="stylesheet" href="{% static 'animal_chess/css/index.css' %}">#}
+{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <td><a href="{% url 'animal-game' %}">Start Game</a></td>
+        </tr>
+        <tr>
+            <td><a href="{% url 'animal-join-page' %}">Join Game</a></td>
+        </tr>
+            <tr>
+            <td><a href="{% url 'animal-game' %}?reconnect=true">Reconnect</a></td>
+        </tr>
+
+    </table>
+    <p>{{ msg }}</p>
+{% endblock %}

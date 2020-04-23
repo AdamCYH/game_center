@@ -16,8 +16,12 @@ Including another URLconf
 from django.urls import path
 
 from core import views
+from core.views import AnimalChessGameView, UserView
 
 urlpatterns = [
     path('', views.home_page, name='animal-chess-home'),
-    path('start_game', views.start_game, name='animal-start-game'),
+    path('game/', AnimalChessGameView.as_view(), name='animal-game'),
+    path('user/', UserView.as_view(), name='animal-user'),
+    path('join_game', views.join_page, name='animal-join-page'),
+    path('ready', views.ready, name='animal-ready'),
 ]
