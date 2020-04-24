@@ -88,6 +88,21 @@ class AnimalChessGame(Game):
         self.player2.my_turn = not self.player2.my_turn
         return turn
 
+    def select_piece(self, x, y):
+        piece = self.board.get_piece(x, y)
+        if piece.status == 0:
+            piece.flip()
+        # else:
+        #     movable_directions = self.board.get_movable_directions(piece)
+        #     if len(movable_directions) != 0:
+        #         direction = input("Where would you like to move? Enter {}\n".format(movable_directions))
+        #         while direction not in movable_directions:
+        #             direction = input(
+        #                 "Invalid move. Where would you like to move? Enter {}\n".format(movable_directions))
+        #         game.process_move(direction, piece)
+        #     else:
+        #         player_turn = game.switch_turn()
+
     @staticmethod
     def generate_id(length):
         return ''.join(random.choices(string.ascii_uppercase +

@@ -34,7 +34,9 @@ $(document).ready(function () {
                 break;
             case 'start game':
                 gameStarted = true;
-            case 'move':
+                break;
+            case 'select':
+                updateBoard(data.board)
                 break;
         }
         document.querySelector('#chat-log').value += (data.message + '\n');
@@ -90,16 +92,10 @@ function send(message) {
 }
 
 function updateBoard(coordinates) {
-    let board = $("#coordinates");
     for (let row in coordinates) {
-        let rowContent = "<tr class='piece'>";
         for (let col in coordinates[row]) {
-            rowContent += "<td id='" + row + "-" + col +
-                "'>" + coordinates[row][col].piece + "</td>"
-
+            const coordinate = row + "-" + col;
+            $("#" + coordinate).html(coordinates[row][col].piece)
         }
-        rowContent += "</tr>";
-        board.append(rowContent);
     }
-
 }

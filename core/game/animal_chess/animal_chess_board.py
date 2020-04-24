@@ -134,7 +134,8 @@ class AnimalChessBoard(Board):
                     row_json.append({"piece": "empty"})
                 else:
                     if col.status == 1:
-                        row_json.append({"piece": col.name})
+                        row_json.append({"piece": col.name,
+                                         "player": col.player.user_id})
                     else:
                         row_json.append({"piece": "hidden"})
             board_json.append(row_json)
