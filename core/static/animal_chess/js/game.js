@@ -2,14 +2,18 @@ const CHAT_ACTION = 'chat';
 const JOIN_ACTION = 'join';
 const READY_ACTION = 'ready';
 const SELECT_ACTION = 'select';
+const MOVE_ACTION = 'move';
+
 let chatSocket = null;
 let message = "";
 let gameStarted = false;
+let movableCoordinates = [];
+let stagingPiece = null;
 
 $(document).ready(function () {
-
     const gameId = $("#game-id").html();
     const player = $("#player-name").html();
+
     chatSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -29,6 +33,7 @@ $(document).ready(function () {
 
     chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
+        console.log(data);
         switch (data.action) {
             case 'ready':
                 break;
@@ -36,7 +41,14 @@ $(document).ready(function () {
                 gameStarted = true;
                 break;
             case 'select':
-                updateBoard(data.board)
+                if (data.movable) {
+                    updateMovagblePiece(data);
+                }
+                updateBoard(data);
+                break;
+            case 'move':
+                updateBoard(data);
+                clearMovablePiece();
                 break;
         }
         document.querySelector('#chat-log').value += (data.message + '\n');
@@ -54,12 +66,20 @@ $(document).ready(function () {
     };
 
     $(".piece").on('click', function () {
+
         message = {
-            'action': SELECT_ACTION,
             'player': player,
             'gameID': gameId,
             'coordinate': this.id,
         };
+        if (movableCoordinates.length > 0) {
+            message['action'] = MOVE_ACTION;
+            message['src_coordinate'] = stagingPiece;
+        } else {
+            message['action'] = SELECT_ACTION;
+            stagingPiece = this.id
+        }
+        clearMovablePiece();
         if (gameStarted) {
             send(message);
         }
@@ -91,11 +111,46 @@ function send(message) {
     chatSocket.send(JSON.stringify(message));
 }
 
-function updateBoard(coordinates) {
-    for (let row in coordinates) {
-        for (let col in coordinates[row]) {
-            const coordinate = row + "-" + col;
-            $("#" + coordinate).html(coordinates[row][col].piece)
+function updateBoard(data) {
+    let board = data.board;
+    for (const row in board) {
+        for (const col in board[row]) {
+            const coordinate = getCoordinate(row, col);
+            let piece = $("#" + coordinate);
+            if (board[row][col].piece === "empty") {
+                piece.html("");
+                piece.css("border", "solid grey 2px");
+            } else if (board[row][col].piece === "hidden") {
+                piece.html("#####");
+            } else {
+                piece.html(board[row][col].piece);
+                if (board[row][col].player === 1) {
+                    piece.css("border", "solid blue 2px");
+                } else {
+                    piece.css("border", "solid red 2px");
+                }
+            }
         }
     }
+}
+
+function updateMovagblePiece(data) {
+    clearMovablePiece();
+    movableCoordinates = data.movable_coordinates;
+    for (const idx in movableCoordinates) {
+        const coordinate = getCoordinate(movableCoordinates[idx].x, movableCoordinates[idx].y);
+        $("#" + coordinate).css("background-color", "green");
+    }
+}
+
+function clearMovablePiece() {
+    for (const idx in movableCoordinates) {
+        const coordinate = getCoordinate(movableCoordinates[idx].x, movableCoordinates[idx].y);
+        $("#" + coordinate).css("background-color", "");
+    }
+    movableCoordinates = [];
+}
+
+function getCoordinate(x, y) {
+    return x + "-" + y;
 }

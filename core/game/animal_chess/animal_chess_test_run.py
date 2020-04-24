@@ -1,6 +1,7 @@
 import datetime
 
 from core.game.animal_chess.animal_chess_game import AnimalChessGame
+from core.game.animal_chess.animal_chess_piece import AnimalChessPiece
 from core.game.animal_chess.animal_chess_player import AnimalChessPlayer
 
 if __name__ == '__main__':
@@ -30,13 +31,16 @@ if __name__ == '__main__':
         if piece.status == 0:
             piece.flip()
         else:
-            movable_directions = game.board.get_movable_directions(piece)
+            movable_directions, coordinate = game.board.get_movable_directions(piece)
             if len(movable_directions) != 0:
                 direction = input("Where would you like to move? Enter {}\n".format(movable_directions))
                 while direction not in movable_directions:
                     direction = input(
                         "Invalid move. Where would you like to move? Enter {}\n".format(movable_directions))
-                game.process_move(direction, piece)
+                dest_x = piece.x + AnimalChessPiece.directions[direction][0]
+                dest_y = piece.y + AnimalChessPiece.directions[direction][1]
+                dest_piece = game.board.get_piece(dest_x, dest_y)
+                game.process_move(piece, dest_piece)
             else:
                 player_turn = game.switch_turn()
 

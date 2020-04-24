@@ -3,7 +3,6 @@ import random
 import string
 
 from core.game.animal_chess.animal_chess_board import AnimalChessBoard
-from core.game.animal_chess.animal_chess_piece import AnimalChessPiece
 from core.game.game import Game
 
 ID_LENGTH = 5
@@ -18,6 +17,7 @@ class AnimalChessGame(Game):
         self.player1 = None
         self.player2 = None
         self.start_time = None
+        self.turn = None
 
     def new_game(self, player):
         self.id = self.generate_id(ID_LENGTH)
@@ -36,6 +36,7 @@ class AnimalChessGame(Game):
         self.board.init_board(self.player1, self.player2)
         self.start_time = datetime.datetime.now()
         self.player1.my_turn = True
+        self.turn = self.player1
         return True
 
     def check_win(self):
@@ -47,10 +48,7 @@ class AnimalChessGame(Game):
             return True, self.player1
         return False, None
 
-    def process_move(self, direction, src_piece):
-        dest_x = src_piece.x + AnimalChessPiece.directions[direction][0]
-        dest_y = src_piece.y + AnimalChessPiece.directions[direction][1]
-        dest_piece = self.board.get_piece(dest_x, dest_y)
+    def process_move(self, src_piece, dest_piece):
         self.board.process_piece_move(src_piece, dest_piece)
 
     def within_game_time_limit(self):
@@ -81,27 +79,28 @@ class AnimalChessGame(Game):
 
     def switch_turn(self):
         if self.player1.my_turn:
-            turn = self.player2
+            self.turn = self.player2
         else:
-            turn = self.player1
+            self.turn = self.player1
         self.player1.my_turn = not self.player1.my_turn
         self.player2.my_turn = not self.player2.my_turn
-        return turn
+        return self.turn
 
     def select_piece(self, x, y):
         piece = self.board.get_piece(x, y)
         if piece.status == 0:
             piece.flip()
-        # else:
-        #     movable_directions = self.board.get_movable_directions(piece)
-        #     if len(movable_directions) != 0:
-        #         direction = input("Where would you like to move? Enter {}\n".format(movable_directions))
-        #         while direction not in movable_directions:
-        #             direction = input(
-        #                 "Invalid move. Where would you like to move? Enter {}\n".format(movable_directions))
-        #         game.process_move(direction, piece)
-        #     else:
-        #         player_turn = game.switch_turn()
+            return False, None
+        else:
+            movable_directions, movable_coordinates = self.board.get_movable_directions(piece)
+            if len(movable_directions) > 0:
+                return True, movable_coordinates
+            else:
+                return False, None
+
+    def move_piece(self, src_piece, dest_piece):
+        self.process_move(self.board.get_piece(src_piece[0], src_piece[1]),
+                          self.board.get_piece(dest_piece[0], dest_piece[1]))
 
     @staticmethod
     def generate_id(length):

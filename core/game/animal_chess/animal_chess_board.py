@@ -116,12 +116,15 @@ class AnimalChessBoard(Board):
     def get_movable_directions(self, src_piece):
 
         movable_directions = []
+        movable_coordinates = []
         for direction in AnimalChessPiece.directions.keys():
             dest_x = src_piece.x + AnimalChessPiece.directions[direction][0]
             dest_y = src_piece.y + AnimalChessPiece.directions[direction][1]
             if self.is_movable(src_piece, dest_x, dest_y):
                 movable_directions.append(direction)
-        return movable_directions
+                movable_coordinates.append({"x": dest_x,
+                                            "y": dest_y})
+        return movable_directions, movable_coordinates
 
     def serialize(self):
         board_json = []
