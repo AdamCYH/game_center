@@ -1,3 +1,8 @@
+const CHAT_ACTION = 'chat';
+const JOIN_ACTION = 'join';
+const READY_ACTION = 'ready';
+
+
 $(document).ready(function () {
 
     const gameId = $("#game-id").html();
@@ -9,9 +14,9 @@ $(document).ready(function () {
         + gameId
         + '/'
     );
-    chatSocket.onopen = function(e) {
+    chatSocket.onopen = function (e) {
         chatSocket.send(JSON.stringify({
-            'action': 'join',
+            'action': JOIN_ACTION,
             'player': player
         }));
     };
@@ -41,7 +46,7 @@ $(document).ready(function () {
 
     $(".ready").on('click', function () {
         chatSocket.send(JSON.stringify({
-            'action': 'ready',
+            'action': READY_ACTION,
             'player': player,
             'gameID': gameId
         }));
@@ -51,7 +56,10 @@ $(document).ready(function () {
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
         chatSocket.send(JSON.stringify({
-            'message': message
+            'message': message,
+            'action': CHAT_ACTION,
+            'player': player,
+            'gameID': gameId
         }));
         messageInputDom.value = '';
     };
