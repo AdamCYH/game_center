@@ -1,13 +1,16 @@
 const CHAT_ACTION = 'chat';
 const JOIN_ACTION = 'join';
 const READY_ACTION = 'ready';
-
+const SELECT_ACTION = 'select';
+let chatSocket = null;
+let message = "";
+let gameStarted = false;
 
 $(document).ready(function () {
 
     const gameId = $("#game-id").html();
     const player = $("#player-name").html();
-    const chatSocket = new WebSocket(
+    chatSocket = new WebSocket(
         'ws://'
         + window.location.host
         + '/ws/animal-chess-game/'
@@ -15,10 +18,12 @@ $(document).ready(function () {
         + '/'
     );
     chatSocket.onopen = function (e) {
-        chatSocket.send(JSON.stringify({
+        message = {
             'action': JOIN_ACTION,
-            'player': player
-        }));
+            'player': player,
+            'gameID': gameId
+        };
+        send(message);
     };
 
 
@@ -27,6 +32,8 @@ $(document).ready(function () {
         switch (data.action) {
             case 'ready':
                 break;
+            case 'start game':
+                gameStarted = true;
             case 'move':
                 break;
         }
@@ -44,23 +51,55 @@ $(document).ready(function () {
         }
     };
 
+    $(".piece").on('click', function () {
+        message = {
+            'action': SELECT_ACTION,
+            'player': player,
+            'gameID': gameId,
+            'coordinate': this.id,
+        };
+        if (gameStarted) {
+            send(message);
+        }
+    });
+
     $(".ready").on('click', function () {
-        chatSocket.send(JSON.stringify({
+        message = {
             'action': READY_ACTION,
             'player': player,
             'gameID': gameId
-        }));
+        };
+        send(message);
     });
 
     document.querySelector('#chat-message-submit').onclick = function (e) {
-        const messageInputDom = document.querySelector('#chat-message-input');
-        const message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
-            'message': message,
+        const messageInputDom = $('#chat-message-input');
+        message = {
+            'message': messageInputDom.val(),
             'action': CHAT_ACTION,
             'player': player,
             'gameID': gameId
-        }));
-        messageInputDom.value = '';
+        };
+        send(message);
+        messageInputDom.val("");
     };
 });
+
+function send(message) {
+    chatSocket.send(JSON.stringify(message));
+}
+
+function updateBoard(coordinates) {
+    let board = $("#coordinates");
+    for (let row in coordinates) {
+        let rowContent = "<tr class='piece'>";
+        for (let col in coordinates[row]) {
+            rowContent += "<td id='" + row + "-" + col +
+                "'>" + coordinates[row][col].piece + "</td>"
+
+        }
+        rowContent += "</tr>";
+        board.append(rowContent);
+    }
+
+}

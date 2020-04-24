@@ -34,13 +34,4 @@ class Board:
         return board_string
 
     def serialize(self):
-        board_json = []
-        for row in self.coordinates:
-            row_json = []
-            for col in row:
-                if col.status == 1:
-                    row_json.append({"name": col.name})
-                else:
-                    row_json.append({"name": "hidden"})
-            board_json.append(row_json)
-        return board_json
+        pass

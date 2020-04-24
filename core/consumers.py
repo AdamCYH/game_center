@@ -46,7 +46,9 @@ class ChatConsumer(WebsocketConsumer):
                 if game.player1 and game.player2 and game.player1.ready and game.player2.ready:
                     action = 'start game'
                     game.start_game()
-                    board = game.board.serialize()
+
+                board = game.board.serialize()
+                print(board)
             elif action == 'move':
                 game = games[data['gameID']]
 

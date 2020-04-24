@@ -122,3 +122,20 @@ class AnimalChessBoard(Board):
             if self.is_movable(src_piece, dest_x, dest_y):
                 movable_directions.append(direction)
         return movable_directions
+
+    def serialize(self):
+        board_json = []
+        for row in self.coordinates:
+            row_json = []
+            for col in row:
+                if col is None:
+                    row_json.append({"piece": "hidden"})
+                elif isinstance(col, EmptyCard):
+                    row_json.append({"piece": "empty"})
+                else:
+                    if col.status == 1:
+                        row_json.append({"piece": col.name})
+                    else:
+                        row_json.append({"piece": "hidden"})
+            board_json.append(row_json)
+        return board_json

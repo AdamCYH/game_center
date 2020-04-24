@@ -1,7 +1,16 @@
+.player-info-container {
+    height: 100px;
+}
+
 .player1-container {
     float: left;
 }
 
 .player2-container {
     float: right;
+}
+
+.board-container {
+    width: 200px;
+    margin: auto;
 }

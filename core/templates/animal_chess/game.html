@@ -10,30 +10,37 @@
 {% endblock %}
 
 {% block content %}
-    <p>Share the code to friend to play together <span id="game-id">{{ game.id }}</span></p>
-    <div hidden id="player-name">{{ request.session.name }}</div>
-    <div class="player1-container">
-        {% if game.player1 %}
-            <div id="player1-name">{{ game.player1.name }}</div>
-            {% if request.session.name == game.player1.name %}
-                <a class="ready button" id="player-{{ game.player1.user_id }}"
-                   title="{{ game.player1.user_id }}">Ready</a>
-            {% endif %}
-        {% endif %}
+    <div class="top-container">
+        <p>Share the code to friend to play together <span id="game-id">{{ game.id }}</span></p>
     </div>
-    <div class="player2-container">
-        {% if game.player2 %}
-            <div id="player2-name">{{ game.player2.name }}</div>
-            {% if request.session.name == game.player2.name %}
-                <a class="ready button" id="player-{{ game.player2.user_id }}"
-                   title="{{ game.player2.user_id }}">Ready</a>
+    <div class="player-info-container">
+        <div hidden id="player-name">{{ request.session.name }}</div>
+        <div class="player1-container">
+            {% if game.player1 %}
+                <div id="player1-name">{{ game.player1.name }}</div>
+                {% if request.session.name == game.player1.name %}
+                    <a class="ready button" id="player-{{ game.player1.user_id }}"
+                       title="{{ game.player1.user_id }}">Ready</a>
+                {% endif %}
             {% endif %}
-        {% endif %}
+        </div>
+        <div class="player2-container">
+            {% if game.player2 %}
+                <div id="player2-name">{{ game.player2.name }}</div>
+                {% if request.session.name == game.player2.name %}
+                    <a class="ready button" id="player-{{ game.player2.user_id }}"
+                       title="{{ game.player2.user_id }}">Ready</a>
+                {% endif %}
+            {% endif %}
+        </div>
     </div>
-    {% include "animal_chess/board.html" %}
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
-    {{ game.id|json_script:"room-name" }}
-
+    <div class="board-container">
+        {% include "animal_chess/board.html" %}
+    </div>
+    <div class="chat-container">
+        <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+        <input id="chat-message-input" type="text" size="100"><br>
+        <input id="chat-message-submit" type="button" value="Send">
+        {{ game.id|json_script:"room-name" }}
+    </div>
 {% endblock %}
