@@ -21,6 +21,9 @@ class AnimalChessPieceCollection(PieceCollection):
 
 
 class AnimalChessPiece(Piece):
+    # Status 0  Hidden
+    # Status 1  Shown
+
     directions = {"up": [-1, 0], "down": [1, 0], "left": [0, -1], "right": [0, 1]}
 
     def __init__(self, player):
@@ -35,7 +38,7 @@ class EmptyCard(AnimalChessPiece):
     def __init__(self):
         default_player = Player("", "")
         super().__init__(default_player)
-        self.animal = ""
+        self.name = ""
         self.index = -1
         self.status = 1
 
@@ -43,54 +46,54 @@ class EmptyCard(AnimalChessPiece):
 class ElephantCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self.animal = "Elephant"
+        self.name = "Elephant"
         self.index = 7
 
 
 class LionCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self.animal = "Lion"
+        self.name = "Lion"
         self.index = 6
 
 
 class TigerCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self.animal = "Tiger"
+        self.name = "Tiger"
         self.index = 5
 
 
 class LeopardCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self.animal = "Leopard"
+        self.name = "Leopard"
         self.index = 4
 
 
 class WolfCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self.animal = "Wolf"
+        self.name = "Wolf"
         self.index = 3
 
 
 class DogCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self.animal = "Dog"
+        self.name = "Dog"
         self.index = 2
 
 
 class CatCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self.animal = "Cat"
+        self.name = "Cat"
         self.index = 1
 
 
 class RatCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
-        self.animal = "Rat"
+        self.name = "Rat"
         self.index = 0
