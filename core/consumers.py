@@ -75,7 +75,7 @@ class ChatConsumer(WebsocketConsumer):
                             # Clean up games
                             for g in games.keys():
                                 if games[g].finished:
-                                    games.remove(g)
+                                    del games[g]
             board = game.board.serialize()
             print(game.board)
             message.update({
