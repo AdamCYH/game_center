@@ -71,7 +71,7 @@ class ChatConsumer(WebsocketConsumer):
                         has_winner, winner = game.check_win()
                         if has_winner:
                             action = "Wins!"
-                            message.update({"winner": winner})
+                            message.update({"winner": winner.name})
 
             board = game.board.serialize()
             print(game.board)

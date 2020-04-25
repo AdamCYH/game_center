@@ -10,8 +10,8 @@ class AnimalChessPieceCollection(PieceCollection):
         self.pieces = [ElephantCard(player),
                        LionCard(player),
                        TigerCard(player),
-                       LeopardCard(player),
                        WolfCard(player),
+                       DeerCard(player),
                        DogCard(player),
                        CatCard(player),
                        RatCard(player)]
@@ -64,17 +64,17 @@ class TigerCard(AnimalChessPiece):
         self.index = 5
 
 
-class LeopardCard(AnimalChessPiece):
-    def __init__(self, player):
-        super().__init__(player)
-        self.name = "Leopard"
-        self.index = 4
-
-
 class WolfCard(AnimalChessPiece):
     def __init__(self, player):
         super().__init__(player)
         self.name = "Wolf"
+        self.index = 4
+
+
+class DeerCard(AnimalChessPiece):
+    def __init__(self, player):
+        super().__init__(player)
+        self.name = "Deer"
         self.index = 3
 
 

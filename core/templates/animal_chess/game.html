@@ -11,7 +11,7 @@
 
 {% block content %}
     <div class="top-container">
-    {% if game.player1 %}
+    {% if not game.player2 %}
         <p>Share the code to friend to play together <span id="game-id">{{ game.id }}</span></p>
     {% endif %}
     </div>
