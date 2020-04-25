@@ -24,6 +24,8 @@ class AnimalChessGame(Game):
         self.id = self.generate_id(ID_LENGTH)
         self.player1 = player
         self.board = AnimalChessBoard()
+        self.player1.my_turn = True
+        self.turn = self.player1
         return
 
     def join_player(self, player):
@@ -36,8 +38,6 @@ class AnimalChessGame(Game):
             return "Please click ready before starting."
         self.board.init_board(self.player1, self.player2)
         self.start_time = datetime.datetime.now()
-        self.player1.my_turn = True
-        self.turn = self.player1
         return True
 
     def check_win(self):
@@ -104,6 +104,7 @@ class AnimalChessGame(Game):
     def move_piece(self, src_piece, dest_piece):
         self.process_move(self.board.get_piece(src_piece[0], src_piece[1]),
                           self.board.get_piece(dest_piece[0], dest_piece[1]))
+        self.switch_turn()
 
     @staticmethod
     def generate_id(length):

@@ -3,9 +3,11 @@ const JOIN_ACTION = 'join';
 const READY_ACTION = 'ready';
 const SELECT_ACTION = 'select';
 const MOVE_ACTION = 'move';
+const player1Id = "1";
+const player2Id = "2";
 
 let playerName = "";
-let playerId = "";
+let myPlayerId = "";
 
 let chatSocket = null;
 let message = "";
@@ -16,7 +18,7 @@ let stagingPiece = null;
 $(document).ready(function () {
     const gameId = $("#game-id").html();
     playerName = $("#player-name").html();
-    playerId = $("#player-id").html();
+    myPlayerId = $("#player-id").html();
 
     chatSocket = new WebSocket(
         'ws://'
@@ -29,7 +31,7 @@ $(document).ready(function () {
     chatSocket.onopen = function (e) {
         message = {
             'action': JOIN_ACTION,
-            'player_id': playerId,
+            'player_id': myPlayerId,
             'player_name': playerName,
             'gameID': gameId
         };
@@ -44,7 +46,7 @@ $(document).ready(function () {
             case 'ready':
                 break;
             case 'join':
-                if (playerId !== data.player_id) {
+                if (myPlayerId !== data.player_id) {
                     joinPlayer(data.player_name);
                 }
                 break;
@@ -62,6 +64,7 @@ $(document).ready(function () {
                 clearMovablePiece();
                 break;
         }
+        updateTurn(data);
         document.querySelector('#chat-log').value += (data.message + '\n');
     };
 
@@ -79,7 +82,7 @@ $(document).ready(function () {
     $(".piece").on('click', function () {
 
         message = {
-            'player_id': playerId,
+            'player_id': myPlayerId,
             'player_name': playerName,
             'gameID': gameId,
             'coordinate': this.id,
@@ -100,7 +103,7 @@ $(document).ready(function () {
     $(".ready").on('click', function () {
         message = {
             'action': READY_ACTION,
-            'player_id': playerId,
+            'player_id': myPlayerId,
             'player_name': playerName,
             'gameID': gameId
         };
@@ -112,7 +115,7 @@ $(document).ready(function () {
         message = {
             'message': messageInputDom.val(),
             'action': CHAT_ACTION,
-            'player_id': playerId,
+            'player_id': myPlayerId,
             'player_name': playerName,
             'gameID': gameId
         };
@@ -123,6 +126,16 @@ $(document).ready(function () {
 
 function send(message) {
     chatSocket.send(JSON.stringify(message));
+}
+
+function updateTurn(data) {
+    if (data.turn === player1Id) {
+        $("#player1-turn").css("background-color", "blue");
+        $("#player2-turn").css("background-color", "");
+    } else {
+        $("#player2-turn").css("background-color", "red");
+        $("#player1-turn").css("background-color", "");
+    }
 }
 
 function updateBoard(data) {
@@ -138,7 +151,7 @@ function updateBoard(data) {
                 piece.html("#####");
             } else {
                 piece.html(board[row][col].piece);
-                if (board[row][col].player === playerId) {
+                if (board[row][col].player === player1Id) {
                     piece.css("border", "solid blue 2px");
                 } else {
                     piece.css("border", "solid red 2px");

@@ -48,25 +48,28 @@ class ChatConsumer(WebsocketConsumer):
                 if game.player1 and game.player2 and game.player1.ready and game.player2.ready:
                     action = 'start game'
                     game.start_game()
-                    message.update({'turn': game.turn.user_id})
             elif action == 'join':
                 message.update({"player_id": player_id,
                                 "player_name": player_name})
             elif action == 'select':
-                x, y = data['coordinate'].split("-")
-                movable, movable_coordinates = game.select_piece(int(x), int(y))
-                if movable:
-                    message.update({'movable_coordinates': movable_coordinates})
-            elif action == 'move':
-                src_x, src_y = data['src_coordinate'].split("-")
-                dest_x, dest_y = data['coordinate'].split("-")
-                if (src_x, src_y) == (dest_x, dest_y):
-                    movable, movable_coordinates = game.select_piece(int(src_x), int(src_y))
+                if player_id == game.turn.user_id:
+                    x, y = data['coordinate'].split("-")
+                    movable, movable_coordinates = game.select_piece(int(x), int(y))
                     if movable:
                         message.update({'movable_coordinates': movable_coordinates})
-                    action = "select"
-                else:
-                    game.move_piece((int(src_x), int(src_y)), (int(dest_x), int(dest_y)))
+                    else:
+                        game.switch_turn()
+            elif action == 'move':
+                if player_id == game.turn.user_id:
+                    src_x, src_y = data['src_coordinate'].split("-")
+                    dest_x, dest_y = data['coordinate'].split("-")
+                    if (src_x, src_y) == (dest_x, dest_y):
+                        movable, movable_coordinates = game.select_piece(int(src_x), int(src_y))
+                        if movable:
+                            message.update({'movable_coordinates': movable_coordinates})
+                        action = "select"
+                    else:
+                        game.move_piece((int(src_x), int(src_y)), (int(dest_x), int(dest_y)))
             board = game.board.serialize()
             print(game.board)
             message.update({
@@ -74,6 +77,7 @@ class ChatConsumer(WebsocketConsumer):
                 'board': board,
                 'message': player_name + ": " + action,
                 'movable': movable,
+                'turn': game.turn.user_id
             })
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
@@ -88,3 +92,6 @@ class ChatConsumer(WebsocketConsumer):
         message = event['message']
         # Send message to WebSocket
         self.send(text_data=json.dumps(message))
+
+    def is_my_turn(self, game, player_id):
+        return game.turn == player_id

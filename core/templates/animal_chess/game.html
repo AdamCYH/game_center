@@ -24,6 +24,7 @@
                        title="{{ game.player1.user_id }}">Ready</a>
                 {% endif %}
             {% endif %}
+            <div class="turn-signal" id="player1-turn"></div>
         </div>
         <div class="player2-container">
             {% if game.player2 %}
@@ -33,6 +34,7 @@
                        title="{{ game.player2.user_id }}">Ready</a>
                 {% endif %}
             {% endif %}
+            <div class="turn-signal" id="player2-turn"></div>
         </div>
     </div>
     <div class="board-container">

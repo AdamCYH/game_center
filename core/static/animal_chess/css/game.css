@@ -18,3 +18,8 @@
 .board-container table td {
     height: 30px;
 }
+
+.turn-signal{
+    width: 10px;
+    height: 10px;
+}
