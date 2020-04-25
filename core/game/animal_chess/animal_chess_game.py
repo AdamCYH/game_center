@@ -3,6 +3,7 @@ import random
 import string
 
 from core.game.animal_chess.animal_chess_board import AnimalChessBoard
+from core.game.animal_chess.animal_chess_piece import EmptyCard
 from core.game.game import Game
 
 ID_LENGTH = 5
@@ -90,6 +91,8 @@ class AnimalChessGame(Game):
         piece = self.board.get_piece(x, y)
         if piece.status == 0:
             piece.flip()
+            return False, None
+        if isinstance(piece, EmptyCard):
             return False, None
         else:
             movable_directions, movable_coordinates = self.board.get_movable_directions(piece)

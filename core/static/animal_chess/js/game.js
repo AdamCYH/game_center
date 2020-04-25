@@ -4,6 +4,9 @@ const READY_ACTION = 'ready';
 const SELECT_ACTION = 'select';
 const MOVE_ACTION = 'move';
 
+let playerName = "";
+let playerId = "";
+
 let chatSocket = null;
 let message = "";
 let gameStarted = false;
@@ -12,8 +15,8 @@ let stagingPiece = null;
 
 $(document).ready(function () {
     const gameId = $("#game-id").html();
-    const playerName = $("#player-name").html();
-    const playerId = $("#player-id").html();
+    playerName = $("#player-name").html();
+    playerId = $("#player-id").html();
 
     chatSocket = new WebSocket(
         'ws://'
@@ -135,7 +138,7 @@ function updateBoard(data) {
                 piece.html("#####");
             } else {
                 piece.html(board[row][col].piece);
-                if (board[row][col].player === 1) {
+                if (board[row][col].player === playerId) {
                     piece.css("border", "solid blue 2px");
                 } else {
                     piece.css("border", "solid red 2px");

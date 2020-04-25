@@ -53,7 +53,7 @@ class AnimalChessGameView(View):
                     context = {"msg": MessageTemplates.GAME_FULL}
                     return render(request, 'animal_chess/home.html', context)
                 else:
-                    game.player2 = AnimalChessPlayer(2, name)
+                    game.player2 = AnimalChessPlayer("2", name)
                     player_id = game.player2.user_id
                     context = {"game": game,
                                "player_id": player_id}
@@ -80,7 +80,7 @@ class MessageTemplates:
 
 def start_new_game(name):
     game = AnimalChessGame()
-    player = AnimalChessPlayer(1, name)
+    player = AnimalChessPlayer("1", name)
     game.new_game(player)
     code = game.id
     games[code] = game

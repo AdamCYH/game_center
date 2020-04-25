@@ -35,7 +35,7 @@ class ChatConsumer(WebsocketConsumer):
         movable = False
         if action == 'chat':
             message.update({
-                'message': player_name + ":" + data['message']
+                'message': player_name + ": " + data['message']
             })
         else:
             game = games[data['gameID']]
@@ -60,13 +60,19 @@ class ChatConsumer(WebsocketConsumer):
             elif action == 'move':
                 src_x, src_y = data['src_coordinate'].split("-")
                 dest_x, dest_y = data['coordinate'].split("-")
-                game.move_piece((int(src_x), int(src_y)), (int(dest_x), int(dest_y)))
+                if (src_x, src_y) == (dest_x, dest_y):
+                    movable, movable_coordinates = game.select_piece(int(src_x), int(src_y))
+                    if movable:
+                        message.update({'movable_coordinates': movable_coordinates})
+                    action = "select"
+                else:
+                    game.move_piece((int(src_x), int(src_y)), (int(dest_x), int(dest_y)))
             board = game.board.serialize()
             print(game.board)
             message.update({
                 'action': action,
                 'board': board,
-                'message': player_name + ":" + action,
+                'message': player_name + ": " + action,
                 'movable': movable,
             })
         # Send message to room group
