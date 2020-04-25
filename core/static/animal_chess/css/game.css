@@ -15,12 +15,28 @@
     margin: auto;
 }
 
-.board-container table td {
-    height: 30px;
-    width: 50px;
-}
-
-.turn-signal{
+.turn-signal {
     width: 10px;
     height: 10px;
+}
+
+#coordinates {
+    width: 500px;
+    height: 600px;
+}
+
+.card {
+    width: 100px;
+}
+
+.selected-card {
+    width: 120px;
+}
+
+.player1 {
+    background-color: #b7f0ff;
+}
+
+.player2 {
+    background-color: #ffdce3;
 }

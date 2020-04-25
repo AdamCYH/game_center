@@ -5,6 +5,7 @@ const SELECT_ACTION = 'select';
 const MOVE_ACTION = 'move';
 const player1Id = "1";
 const player2Id = "2";
+const iconPath = "/static/icon/";
 
 let playerName = "";
 let myPlayerId = "";
@@ -55,14 +56,17 @@ $(document).ready(function () {
                 break;
             case 'select':
                 clearMovablePiece();
+                clearSelected();
                 if (data.movable) {
                     updateMovagblePiece(data);
+                    updateSelected(data);
                 }
                 updateBoard(data);
                 break;
             case 'move':
-                updateBoard(data);
+                clearSelected();
                 clearMovablePiece();
+                updateBoard(data);
                 break;
             case 'Wins!':
                 gameStarted = false;
@@ -91,7 +95,7 @@ $(document).ready(function () {
             'gameID': gameId,
             'coordinate': this.id,
         };
-        console.log($(this).hasClass("hidden") +":" + movableCoordinates.length);
+        console.log($(this).hasClass("hidden") + ":" + movableCoordinates.length);
         if ($(this).hasClass("hidden") || movableCoordinates.length === 0) {
             message['action'] = SELECT_ACTION;
             stagingPiece = this.id
@@ -149,19 +153,20 @@ function updateBoard(data) {
         for (const col in board[row]) {
             const coordinate = getCoordinate(row, col);
             let piece = $("#" + coordinate);
+            piece.children().removeClass("player1");
+            piece.children().removeClass("player2");
             if (board[row][col].piece === "empty") {
-                piece.html("");
-                piece.css("border", "solid grey 2px");
+                piece.children().attr("src", iconPath + "empty.png");
             } else if (board[row][col].piece === "hidden") {
-                piece.html("#####");
                 piece.addClass("hidden");
+                piece.children().attr("src", iconPath + "hidden.png")
             } else {
-                piece.html(board[row][col].piece);
+                piece.children().attr("src", iconPath + board[row][col].piece + ".png");
                 piece.removeClass("hidden");
                 if (board[row][col].player === player1Id) {
-                    piece.css("border", "solid blue 2px");
+                    piece.children().addClass("player1");
                 } else {
-                    piece.css("border", "solid red 2px");
+                    piece.children().addClass("player2");
                 }
             }
         }
@@ -173,14 +178,23 @@ function updateMovagblePiece(data) {
     movableCoordinates = data.movable_coordinates;
     for (const idx in movableCoordinates) {
         const coordinate = getCoordinate(movableCoordinates[idx][0], movableCoordinates[idx][1]);
-        $("#" + coordinate).css("background-color", "green");
+        $("#" + coordinate).css("opacity", 0.5);
     }
+}
+
+function updateSelected(data) {
+    const coordinate = getCoordinate(data.coordinate[0], data.coordinate[1]);
+    $("#" + coordinate).children().addClass("selected-card")
+}
+
+function clearSelected() {
+    $(".selected-card").removeClass("selected-card");
 }
 
 function clearMovablePiece() {
     for (const idx in movableCoordinates) {
         const coordinate = getCoordinate(movableCoordinates[idx][0], movableCoordinates[idx][1]);
-        $("#" + coordinate).css("background-color", "");
+        $("#" + coordinate).css("opacity", 1);
     }
     movableCoordinates = [];
 }

@@ -11,9 +11,11 @@
 
 {% block content %}
     <div class="top-container">
-    {% if not game.player2 %}
-        <p>Share the code to friend to play together <span id="game-id">{{ game.id }}</span></p>
-    {% endif %}
+        {% if not game.player2 %}
+            <p>Share the code to friend to play together <span id="game-id">{{ game.id }}</span></p>
+        {% else %}
+            <p>Welcome to game <span id="game-id">{{ game.id }}</span></p>
+        {% endif %}
     </div>
     <div class="player-info-container">
         <div hidden id="player-name">{{ request.session.name }}</div>

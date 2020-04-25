@@ -41,7 +41,7 @@ class AnimalChessGameView(View):
             return render(request, 'animal_chess/login.html')
 
     def post(self, request):
-        clean_up_games()
+        # clean_up_games()
         if 'name' in request.session:
             code = request.POST.get("code")
             name = request.session['name']

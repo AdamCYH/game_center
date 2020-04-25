@@ -57,6 +57,7 @@ class ChatConsumer(WebsocketConsumer):
                     movable, movable_coordinates = game.select_piece(int(x), int(y))
                     if movable:
                         message.update({'movable_coordinates': movable_coordinates})
+                    message.update({'coordinate': [x, y]})
             elif action == 'move':
                 if player_id == game.turn.user_id:
                     src_x, src_y = data['src_coordinate'].split("-")
@@ -72,6 +73,7 @@ class ChatConsumer(WebsocketConsumer):
                         if has_winner:
                             action = "Wins!"
                             message.update({"winner": winner.name})
+                    message.update({'coordinate': [src_x, src_y]})
 
             board = game.board.serialize()
             print(game.board)
