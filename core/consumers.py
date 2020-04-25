@@ -57,8 +57,6 @@ class ChatConsumer(WebsocketConsumer):
                     movable, movable_coordinates = game.select_piece(int(x), int(y))
                     if movable:
                         message.update({'movable_coordinates': movable_coordinates})
-                    else:
-                        game.switch_turn()
             elif action == 'move':
                 if player_id == game.turn.user_id:
                     src_x, src_y = data['src_coordinate'].split("-")

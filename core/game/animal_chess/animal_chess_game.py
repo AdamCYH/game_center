@@ -91,8 +91,11 @@ class AnimalChessGame(Game):
         piece = self.board.get_piece(x, y)
         if piece.status == 0:
             piece.flip()
+            self.switch_turn()
             return False, None
-        if isinstance(piece, EmptyCard):
+        elif isinstance(piece, EmptyCard):
+            return False, None
+        elif piece.player != self.turn:
             return False, None
         else:
             movable_directions, movable_coordinates = self.board.get_movable_directions(piece)
@@ -101,9 +104,13 @@ class AnimalChessGame(Game):
             else:
                 return False, None
 
-    def move_piece(self, src_piece, dest_piece):
-        self.process_move(self.board.get_piece(src_piece[0], src_piece[1]),
-                          self.board.get_piece(dest_piece[0], dest_piece[1]))
+    def move_piece(self, src_coordinate, dest_coordinate):
+        src_piece = self.board.get_piece(src_coordinate[0], src_coordinate[1])
+        dest_piece = self.board.get_piece(dest_coordinate[0], dest_coordinate[1])
+        movable_directions, movable_coordinates = self.board.get_movable_directions(src_piece)
+        if dest_coordinate not in movable_coordinates:
+            return
+        self.process_move(src_piece, dest_piece)
         self.switch_turn()
 
     @staticmethod

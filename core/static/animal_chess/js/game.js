@@ -54,6 +54,7 @@ $(document).ready(function () {
                 gameStarted = true;
                 break;
             case 'select':
+                clearMovablePiece();
                 if (data.movable) {
                     updateMovagblePiece(data);
                 }
@@ -87,12 +88,13 @@ $(document).ready(function () {
             'gameID': gameId,
             'coordinate': this.id,
         };
-        if (movableCoordinates.length > 0) {
-            message['action'] = MOVE_ACTION;
-            message['src_coordinate'] = stagingPiece;
-        } else {
+        console.log($(this).hasClass("hidden") +":" + movableCoordinates.length);
+        if ($(this).hasClass("hidden") || movableCoordinates.length === 0) {
             message['action'] = SELECT_ACTION;
             stagingPiece = this.id
+        } else {
+            message['action'] = MOVE_ACTION;
+            message['src_coordinate'] = stagingPiece;
         }
         clearMovablePiece();
         if (gameStarted) {
@@ -149,8 +151,10 @@ function updateBoard(data) {
                 piece.css("border", "solid grey 2px");
             } else if (board[row][col].piece === "hidden") {
                 piece.html("#####");
+                piece.addClass("hidden");
             } else {
                 piece.html(board[row][col].piece);
+                piece.removeClass("hidden");
                 if (board[row][col].player === player1Id) {
                     piece.css("border", "solid blue 2px");
                 } else {
@@ -165,14 +169,14 @@ function updateMovagblePiece(data) {
     clearMovablePiece();
     movableCoordinates = data.movable_coordinates;
     for (const idx in movableCoordinates) {
-        const coordinate = getCoordinate(movableCoordinates[idx].x, movableCoordinates[idx].y);
+        const coordinate = getCoordinate(movableCoordinates[idx][0], movableCoordinates[idx][1]);
         $("#" + coordinate).css("background-color", "green");
     }
 }
 
 function clearMovablePiece() {
     for (const idx in movableCoordinates) {
-        const coordinate = getCoordinate(movableCoordinates[idx].x, movableCoordinates[idx].y);
+        const coordinate = getCoordinate(movableCoordinates[idx][0], movableCoordinates[idx][1]);
         $("#" + coordinate).css("background-color", "");
     }
     movableCoordinates = [];

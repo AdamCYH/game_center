@@ -122,8 +122,7 @@ class AnimalChessBoard(Board):
             dest_y = src_piece.y + AnimalChessPiece.directions[direction][1]
             if self.is_movable(src_piece, dest_x, dest_y):
                 movable_directions.append(direction)
-                movable_coordinates.append({"x": dest_x,
-                                            "y": dest_y})
+                movable_coordinates.append((dest_x, dest_y))
         return movable_directions, movable_coordinates
 
     def serialize(self):
