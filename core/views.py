@@ -41,6 +41,7 @@ class AnimalChessGameView(View):
             return render(request, 'animal_chess/login.html')
 
     def post(self, request):
+        clean_up_games()
         if 'name' in request.session:
             code = request.POST.get("code")
             name = request.session['name']
@@ -85,3 +86,9 @@ def start_new_game(name):
     code = game.id
     games[code] = game
     return game
+
+
+def clean_up_games():
+    for g in list(games):
+        if games[g].finished:
+            del games[g]
