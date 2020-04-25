@@ -13,7 +13,10 @@ def home_page(request):
 
 
 def join_page(request):
-    return render(request, 'animal_chess/join.html')
+    if 'name' in request.session:
+        return render(request, 'animal_chess/join.html')
+    else:
+        return render(request, 'animal_chess/login.html')
 
 
 class AnimalChessGameView(View):
@@ -41,7 +44,7 @@ class AnimalChessGameView(View):
             return render(request, 'animal_chess/login.html')
 
     def post(self, request):
-        # clean_up_games()
+        clean_up_games()
         if 'name' in request.session:
             code = request.POST.get("code")
             name = request.session['name']
@@ -67,7 +70,7 @@ class UserView(View):
     def post(self, request):
         name = request.POST.get("name")
         request.session['name'] = name
-        return redirect('/animal-chess/game', request)
+        return render(request, 'animal_chess/join.html')
 
 
 def ready(request):
