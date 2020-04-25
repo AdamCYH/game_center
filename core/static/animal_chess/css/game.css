@@ -14,3 +14,7 @@
     width: 200px;
     margin: auto;
 }
+
+.board-container table td {
+    height: 30px;
+}

@@ -15,6 +15,7 @@
     </div>
     <div class="player-info-container">
         <div hidden id="player-name">{{ request.session.name }}</div>
+        <div hidden id="player-id">{{ player_id }}</div>
         <div class="player1-container">
             {% if game.player1 %}
                 <div id="player1-name">{{ game.player1.name }}</div>

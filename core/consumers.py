@@ -28,18 +28,19 @@ class ChatConsumer(WebsocketConsumer):
         print(text_data)
         data = json.loads(text_data)
         action = data['action']
-        player = data['player']
+        player_name = data['player_name']
+        player_id = data['player_id']
         board = []
         message = {}
         movable = False
         if action == 'chat':
             message.update({
-                'message': player + ":" + data['message']
+                'message': player_name + ":" + data['message']
             })
         else:
             game = games[data['gameID']]
             if action == 'ready':
-                if player == game.player1.name:
+                if player_id == game.player1.user_id:
                     game.player1.change_status()
                 else:
                     game.player2.change_status()
@@ -48,6 +49,9 @@ class ChatConsumer(WebsocketConsumer):
                     action = 'start game'
                     game.start_game()
                     message.update({'turn': game.turn.user_id})
+            elif action == 'join':
+                message.update({"player_id": player_id,
+                                "player_name": player_name})
             elif action == 'select':
                 x, y = data['coordinate'].split("-")
                 movable, movable_coordinates = game.select_piece(int(x), int(y))
@@ -62,7 +66,7 @@ class ChatConsumer(WebsocketConsumer):
             message.update({
                 'action': action,
                 'board': board,
-                'message': player + ":" + action,
+                'message': player_name + ":" + action,
                 'movable': movable,
             })
         # Send message to room group
@@ -76,6 +80,5 @@ class ChatConsumer(WebsocketConsumer):
 
     def broadcast(self, event):
         message = event['message']
-
         # Send message to WebSocket
         self.send(text_data=json.dumps(message))

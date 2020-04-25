@@ -25,9 +25,7 @@ class AnimalChessGameView(View):
                 name = request.session['name']
                 if code in games:
                     game = games[code]
-                    context = {"code": code,
-                               'name': name,
-                               "board": game.board.coordinates}
+                    context = {"game", game}
                     return render(request, 'animal_chess/game.html', context)
             context = {'msg': MessageTemplates.GAME_NOT_FOUND}
             return render(request, 'animal_chess/home.html', context)
@@ -36,9 +34,8 @@ class AnimalChessGameView(View):
             name = request.session['name']
 
             game = start_new_game(name)
-            request.session['code'] = game.id
-
-            context = {"game": game}
+            context = {"game": game,
+                       "player_id": game.player1.user_id}
             return render(request, 'animal_chess/game.html', context)
         else:
             return render(request, 'animal_chess/login.html')
@@ -57,7 +54,9 @@ class AnimalChessGameView(View):
                     return render(request, 'animal_chess/home.html', context)
                 else:
                     game.player2 = AnimalChessPlayer(2, name)
-                    context = {"game": game}
+                    player_id = game.player2.user_id
+                    context = {"game": game,
+                               "player_id": player_id}
                     return render(request, 'animal_chess/game.html', context)
         else:
             return render(request, 'animal_chess/login.html')

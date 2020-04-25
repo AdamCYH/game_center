@@ -12,7 +12,8 @@ let stagingPiece = null;
 
 $(document).ready(function () {
     const gameId = $("#game-id").html();
-    const player = $("#player-name").html();
+    const playerName = $("#player-name").html();
+    const playerId = $("#player-id").html();
 
     chatSocket = new WebSocket(
         'ws://'
@@ -21,10 +22,12 @@ $(document).ready(function () {
         + gameId
         + '/'
     );
+
     chatSocket.onopen = function (e) {
         message = {
             'action': JOIN_ACTION,
-            'player': player,
+            'player_id': playerId,
+            'player_name': playerName,
             'gameID': gameId
         };
         send(message);
@@ -36,6 +39,11 @@ $(document).ready(function () {
         console.log(data);
         switch (data.action) {
             case 'ready':
+                break;
+            case 'join':
+                if (playerId !== data.player_id) {
+                    joinPlayer(data.player_name);
+                }
                 break;
             case 'start game':
                 gameStarted = true;
@@ -68,7 +76,8 @@ $(document).ready(function () {
     $(".piece").on('click', function () {
 
         message = {
-            'player': player,
+            'player_id': playerId,
+            'player_name': playerName,
             'gameID': gameId,
             'coordinate': this.id,
         };
@@ -88,7 +97,8 @@ $(document).ready(function () {
     $(".ready").on('click', function () {
         message = {
             'action': READY_ACTION,
-            'player': player,
+            'player_id': playerId,
+            'player_name': playerName,
             'gameID': gameId
         };
         send(message);
@@ -99,7 +109,8 @@ $(document).ready(function () {
         message = {
             'message': messageInputDom.val(),
             'action': CHAT_ACTION,
-            'player': player,
+            'player_id': playerId,
+            'player_name': playerName,
             'gameID': gameId
         };
         send(message);
@@ -153,4 +164,8 @@ function clearMovablePiece() {
 
 function getCoordinate(x, y) {
     return x + "-" + y;
+}
+
+function joinPlayer(player) {
+    $(".player2-container").append("<div id=\"player2-name\">" + player + "</div>");
 }
