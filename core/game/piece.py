@@ -26,8 +26,8 @@ class Piece:
         return self.status
 
     def __str__(self):
-        # if self.status == 0:
-        #     return "#####"
+        if self.status == 0:
+            return "#####"
         return "{}:{}".format(self.player, self.name)
 
     def __repr__(self):

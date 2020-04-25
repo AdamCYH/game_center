@@ -64,6 +64,9 @@ $(document).ready(function () {
                 updateBoard(data);
                 clearMovablePiece();
                 break;
+            case 'Wins!':
+                gameStarted = false;
+                break;
         }
         updateTurn(data);
         document.querySelector('#chat-log').value += (data.message + '\n');

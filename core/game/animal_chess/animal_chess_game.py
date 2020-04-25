@@ -44,8 +44,10 @@ class AnimalChessGame(Game):
         if len(self.player1.piece_collection.pieces) == 0 and len(self.player2.piece_collection.pieces) == 0:
             return True, None
         if len(self.player1.piece_collection.pieces) == 0:
+            self.finished = True
             return True, self.player2
         if len(self.player2.piece_collection.pieces) == 0:
+            self.finished = True
             return True, self.player1
         return False, None
 

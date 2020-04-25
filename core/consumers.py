@@ -68,6 +68,14 @@ class ChatConsumer(WebsocketConsumer):
                         action = "select"
                     else:
                         game.move_piece((int(src_x), int(src_y)), (int(dest_x), int(dest_y)))
+                        has_winner, winner = game.check_win()
+                        if has_winner:
+                            action = "Wins!"
+                            message.update({"winner": winner})
+                            # Clean up games
+                            for g in games.keys():
+                                if games[g].finished:
+                                    games.remove(g)
             board = game.board.serialize()
             print(game.board)
             message.update({

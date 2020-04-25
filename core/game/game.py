@@ -5,6 +5,8 @@ class Game:
         self.player1 = None
         self.player2 = None
         self.start_time = None
+        self.turn = None
+        self.finished = False
 
     def new_game(self, player):
         pass
