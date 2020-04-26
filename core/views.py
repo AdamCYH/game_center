@@ -41,7 +41,8 @@ class AnimalChessGameView(View):
                        "player_id": game.player1.user_id}
             return render(request, 'animal_chess/game.html', context)
         else:
-            return render(request, 'animal_chess/login.html')
+            contest = {"new_game": True}
+            return render(request, 'animal_chess/login.html', contest)
 
     def post(self, request):
         clean_up_games()
@@ -70,6 +71,8 @@ class UserView(View):
     def post(self, request):
         name = request.POST.get("name")
         request.session['name'] = name
+        if request.POST.get("new_game") == "True":
+            return redirect("/animal-chess/game")
         return render(request, 'animal_chess/join.html')
 
 

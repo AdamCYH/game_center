@@ -10,6 +10,7 @@
 
 {% block content %}
     <form name="login_form" action="{% url 'animal-user' %}" method="POST">
+    <input hidden name="new_game" value="{{ new_game }}">
         <table>
             <tr>
                 <td width="50">Enter your name:</td>
