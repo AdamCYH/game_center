@@ -1,5 +1,5 @@
 .player-info-container {
-    height: 100px;
+    height: 100%;
 }
 
 .player1-container {
@@ -11,7 +11,7 @@
 }
 
 .board-container {
-    width: 200px;
+    width: 100%;
     margin: auto;
 }
 
