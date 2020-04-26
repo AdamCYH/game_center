@@ -239,5 +239,6 @@ function joinPlayer(player) {
 }
 
 function finishGame(data) {
-    alert(data.winner + "Won!!! Congratulations!");
+    $("#win-message").html(data.winner + " Won!!! Congratulations!");
+    $("#id01").css("display", "block")
 }

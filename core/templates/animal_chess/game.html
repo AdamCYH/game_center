@@ -60,14 +60,14 @@
 
 
             <div class="modal-container" style="background-color:#f1f1f1">
-                <h2 class="win-message"> You Won!!!</h2>
+                <h2 id="win-message"> You Won!!!</h2>
                 <div class="btn-container">
-                    <a type="button" onclick="document.getElementById('id01').style.display='none'"
-                            class="button againbtn">
+                    <a type="button" href="{% url 'animal-game' %}"
+                       class="button againbtn">
                         Play Again
                     </a>
-                    <a type="button" onclick="document.getElementById('id01').style.display='none'"
-                            class="button leavebtn">
+                    <a type="button" href="{% url 'animal-chess-home' %}"
+                       class="button leavebtn">
                         Leave Game
                     </a>
                 </div>

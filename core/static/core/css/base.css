@@ -35,6 +35,8 @@ body {
     cursor: pointer;
     width: 100%;
     border-radius: 5px;
+    text-decoration: none;
+    color: black;
 }
 
 .button:hover {
