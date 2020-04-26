@@ -12,10 +12,11 @@
 {% block content %}
     <div class="top-container">
         {% if not game.player2 %}
-            <p>Share the code to friend to play together <span id="game-id">{{ game.id }}</span></p>
+            <p>Share the code to play together <span id="game-id">{{ game.id }}</span></p>
         {% else %}
             <p>Welcome to game <span id="game-id">{{ game.id }}</span></p>
         {% endif %}
+    <img class="animal-rank" src="/static/icon/rank.png">
     </div>
     <div class="player-info-container">
         <div hidden id="player-name">{{ request.session.name }}</div>
