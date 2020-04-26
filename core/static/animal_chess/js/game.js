@@ -18,6 +18,7 @@ let stagingPiece = null;
 
 $(document).ready(function () {
     const gameId = $("#game-id").html();
+    const chatLog = $("#chat-log");
     playerName = $("#player-name").html();
     myPlayerId = $("#player-id").html();
 
@@ -53,6 +54,7 @@ $(document).ready(function () {
                 break;
             case 'start game':
                 gameStarted = true;
+                $(".ready").remove();
                 break;
             case 'select':
                 clearMovablePiece();
@@ -73,7 +75,9 @@ $(document).ready(function () {
                 break;
         }
         updateTurn(data);
+
         document.querySelector('#chat-log').value += (data.message + '\n');
+        chatLog.scrollTop(chatLog[0].scrollHeight + 30);
     };
 
     chatSocket.onclose = function (e) {
@@ -95,7 +99,6 @@ $(document).ready(function () {
             'gameID': gameId,
             'coordinate': this.id,
         };
-        console.log($(this).hasClass("hidden") + ":" + movableCoordinates.length);
         if ($(this).hasClass("hidden") || movableCoordinates.length === 0) {
             message['action'] = SELECT_ACTION;
             stagingPiece = this.id
@@ -131,6 +134,7 @@ $(document).ready(function () {
         send(message);
         messageInputDom.val("");
     };
+
 });
 
 function send(message) {
@@ -139,11 +143,12 @@ function send(message) {
 
 function updateTurn(data) {
     if (data.turn === player1Id) {
-        $("#player1-turn").css("background-color", "blue");
-        $("#player2-turn").css("background-color", "");
+        $("#player1-name").addClass("player1");
+        $("#player2-name").removeClass("player2");
     } else {
-        $("#player2-turn").css("background-color", "red");
-        $("#player1-turn").css("background-color", "");
+        $("#player2-name").addClass("player2");
+        $("#player1-name").removeClass("player1");
+
     }
 }
 
@@ -204,5 +209,5 @@ function getCoordinate(x, y) {
 }
 
 function joinPlayer(player) {
-    $(".player2-container").append("<div id=\"player2-name\">" + player + "</div>");
+    $(".player2-container").append("<div id=\"player2-name\" class=\"player-name inline-block\">" + player + "</div>");
 }
