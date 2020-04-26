@@ -22,31 +22,31 @@
         <div hidden id="player-id">{{ player_id }}</div>
         <div class="player1-container">
             {% if game.player1 %}
-                <div id="player1-name">{{ game.player1.name }}</div>
+                <div id="player1-name" class="inline-block">{{ game.player1.name }}</div>
                 {% if request.session.name == game.player1.name %}
-                    <a class="ready button" id="player-{{ game.player1.user_id }}"
+                    <a class="ready button inline-block" id="player-{{ game.player1.user_id }}"
                        title="{{ game.player1.user_id }}">Ready</a>
                 {% endif %}
             {% endif %}
-            <div class="turn-signal" id="player1-turn"></div>
+            <div class="turn-signal inline-block" id="player1-turn"></div>
         </div>
         <div class="player2-container">
             {% if game.player2 %}
-                <div id="player2-name">{{ game.player2.name }}</div>
+                <div id="player2-name" class="inline-block">{{ game.player2.name }}</div>
                 {% if request.session.name == game.player2.name %}
-                    <a class="ready button" id="player-{{ game.player2.user_id }}"
+                    <a class="ready button inline-block" id="player-{{ game.player2.user_id }}"
                        title="{{ game.player2.user_id }}">Ready</a>
                 {% endif %}
             {% endif %}
-            <div class="turn-signal" id="player2-turn"></div>
+            <div class="turn-signal inline-block" id="player2-turn"></div>
         </div>
     </div>
     <div class="board-container">
         {% include "animal_chess/board.html" %}
     </div>
     <div class="chat-container">
-        <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-        <input id="chat-message-input" type="text" size="100"><br>
+        <textarea id="chat-log" cols="45" rows="5"></textarea><br>
+        <input id="chat-message-input" type="text" size="40">
         <input id="chat-message-submit" type="button" value="Send">
         {{ game.id|json_script:"room-name" }}
     </div>

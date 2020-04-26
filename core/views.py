@@ -46,7 +46,7 @@ class AnimalChessGameView(View):
     def post(self, request):
         clean_up_games()
         if 'name' in request.session:
-            code = request.POST.get("code")
+            code = request.POST.get("code").upper()
             name = request.session['name']
             if code not in games:
                 context = {"msg": MessageTemplates.GAME_NOT_FOUND}

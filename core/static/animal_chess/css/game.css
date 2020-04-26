@@ -1,8 +1,13 @@
 .player-info-container {
-    height: 100%;
+    width: 100%;
+    height: 50px;
 }
 
 .player1-container {
+    float: left;
+}
+
+#player-name {
     float: left;
 }
 
@@ -20,17 +25,18 @@
     height: 10px;
 }
 
-#coordinates {
-    width: 500px;
-    height: 600px;
+
+.coordinates {
+    width: 70%;
+    height: 500px;
 }
 
 .card {
-    width: 100px;
+    width: 90px;
 }
 
 .selected-card {
-    width: 120px;
+    width: 100px;
 }
 
 .player1 {
@@ -39,4 +45,8 @@
 
 .player2 {
     background-color: #ffdce3;
+}
+
+.inline-block {
+    display: inline-block;
 }
