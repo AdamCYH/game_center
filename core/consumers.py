@@ -35,6 +35,7 @@ class ChatConsumer(WebsocketConsumer):
         movable = False
         if action == 'chat':
             message.update({
+                'action': action,
                 'message': player_name + ": " + data['message']
             })
         else:
