@@ -52,6 +52,7 @@ $(document).ready(function () {
                 break;
             case 'ready':
                 updateChat(data);
+                updateReadyStatus(data);
                 break;
             case 'join':
                 if (myPlayerId !== data.player_id) {
@@ -157,6 +158,13 @@ function send(message) {
 function updateChat(data) {
     chatLog.val(chatLog[0].value += (data.message + '\n'));
     chatLog.scrollTop(chatLog[0].scrollHeight + 30);
+}
+
+function updateReadyStatus(data) {
+    const readyBtn = $("#player-" + data.player_id);
+    readyBtn.html("Ready");
+    readyBtn.css("background-color", "#bdf0c3");
+
 }
 
 function updateTurn(data) {

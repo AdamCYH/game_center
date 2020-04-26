@@ -50,8 +50,7 @@ class ChatConsumer(WebsocketConsumer):
                     action = 'start game'
                     game.start_game()
             elif action == 'join':
-                message.update({"player_id": player_id,
-                                "player_name": player_name})
+                pass
             elif action == 'select':
                 if player_id == game.turn.user_id:
                     x, y = data['coordinate'].split("-")
@@ -87,7 +86,9 @@ class ChatConsumer(WebsocketConsumer):
                 'board': board,
                 'message': player_name + ": " + action,
                 'movable': movable,
-                'turn': game.turn.user_id
+                'turn': game.turn.user_id,
+                'player_id': player_id,
+                'player_name': player_name
             })
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
