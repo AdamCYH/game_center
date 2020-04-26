@@ -11,6 +11,7 @@ let playerName = "";
 let myPlayerId = "";
 
 let chatSocket = null;
+let chatLog = null;
 let message = "";
 let gameStarted = false;
 let movableCoordinates = [];
@@ -18,7 +19,8 @@ let stagingPiece = null;
 
 $(document).ready(function () {
     const gameId = $("#game-id").html();
-    const chatLog = $("#chat-log");
+    chatLog = $("#chat-log");
+
     playerName = $("#player-name").html();
     myPlayerId = $("#player-id").html();
 
@@ -46,16 +48,19 @@ $(document).ready(function () {
         console.log(data);
         switch (data.action) {
             case 'ready':
+                updateChat(data);
                 break;
             case 'join':
                 if (myPlayerId !== data.player_id) {
                     joinPlayer(data.player_name);
                 }
+                updateChat(data);
                 break;
             case 'start game':
                 gameStarted = true;
                 $(".ready").remove();
                 updateTurn(data);
+                updateChat(data);
                 break;
             case 'select':
                 clearMovablePiece();
@@ -78,8 +83,7 @@ $(document).ready(function () {
                 break;
         }
 
-        document.querySelector('#chat-log').value += (data.message + '\n');
-        chatLog.scrollTop(chatLog[0].scrollHeight + 30);
+
     };
 
     chatSocket.onclose = function (e) {
@@ -141,6 +145,11 @@ $(document).ready(function () {
 
 function send(message) {
     chatSocket.send(JSON.stringify(message));
+}
+
+function updateChat(data) {
+    chatLog.val(chatLog[0].value += (data.message + '\n'));
+    chatLog.scrollTop(chatLog[0].scrollHeight + 30);
 }
 
 function updateTurn(data) {

@@ -1,3 +1,15 @@
+body {
+    background-color: #fff4ea;
+}
+
+.button {
+    background-color: #ff8383;
+    color: #ffffff;
+    padding: 1px 8px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
 .animal-rank {
     width: 100%;
 }
@@ -10,18 +22,15 @@
     float: left;
 }
 
-#player-name {
-    float: left;
+.player-name {
+    padding: 1px 10px;
+    border-radius: 15px;
 }
 
 .player2-container {
     float: right;
 }
 
-
-.player-name {
-    padding: 5px;
-}
 
 .player1 {
     background-color: #b7f0ff;
@@ -48,6 +57,9 @@
 
 .card {
     width: 90%;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
 }
 
 .selected-card {
@@ -57,8 +69,10 @@
 
 #chat-log {
     width: 100%;
+    background-color: #fffdfb;
 }
 
 #chat-message-input {
     width: 80%;
+    background-color: #fffdfb;
 }
