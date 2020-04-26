@@ -2,7 +2,7 @@ body {
     background-color: #fff4ea;
 }
 
-.button {
+.readybtn {
     background-color: #ff8383;
     color: #ffffff;
     padding: 1px 8px;
@@ -75,4 +75,24 @@ body {
 #chat-message-input {
     width: 80%;
     background-color: #fffdfb;
+}
+
+.sendbtn {
+    width: 60px;
+    background-color: #bdf0c3;
+}
+
+.win-message {
+    text-align: center;
+}
+
+
+.againbtn {
+    width: auto;
+    background-color: #b7f0ff;
+}
+
+.leavebtn {
+    width: auto;
+    background-color: #ff8383;
 }
