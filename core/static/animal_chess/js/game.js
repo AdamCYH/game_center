@@ -47,6 +47,9 @@ $(document).ready(function () {
         const data = JSON.parse(e.data);
         console.log(data);
         switch (data.action) {
+            case 'chat':
+                updateChat(data);
+                break;
             case 'ready':
                 updateChat(data);
                 break;
