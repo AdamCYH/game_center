@@ -42,6 +42,7 @@ class AnimalChessGame(Game):
 
     def check_win(self):
         if len(self.player1.piece_collection.pieces) == 0 and len(self.player2.piece_collection.pieces) == 0:
+            self.finished = True
             return True, None
         if len(self.player1.piece_collection.pieces) == 0:
             self.finished = True

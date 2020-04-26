@@ -83,6 +83,10 @@ $(document).ready(function () {
                 break;
             case 'Wins!':
                 gameStarted = false;
+                clearSelected();
+                clearMovablePiece();
+                updateBoard(data);
+                finishGame(data);
                 break;
         }
 
@@ -224,4 +228,8 @@ function getCoordinate(x, y) {
 
 function joinPlayer(player) {
     $(".player2-container").append("<div id=\"player2-name\" class=\"player-name inline-block\">" + player + "</div>");
+}
+
+function finishGame(data) {
+    alert(data.winner + "Won!!! Congratulations!");
 }

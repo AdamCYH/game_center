@@ -71,9 +71,13 @@ class ChatConsumer(WebsocketConsumer):
                     else:
                         game.move_piece((int(src_x), int(src_y)), (int(dest_x), int(dest_y)))
                         has_winner, winner = game.check_win()
+                        print(has_winner, winner)
                         if has_winner:
                             action = "Wins!"
-                            message.update({"winner": winner.name})
+                            if winner is None:
+                                message.update({"winner": "TIE!!"})
+                            else:
+                                message.update({"winner": winner.name})
                     message.update({'coordinate': [src_x, src_y]})
 
             board = game.board.serialize()
