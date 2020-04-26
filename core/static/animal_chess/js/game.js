@@ -55,6 +55,7 @@ $(document).ready(function () {
             case 'start game':
                 gameStarted = true;
                 $(".ready").remove();
+                updateTurn(data);
                 break;
             case 'select':
                 clearMovablePiece();
@@ -64,17 +65,18 @@ $(document).ready(function () {
                     updateSelected(data);
                 }
                 updateBoard(data);
+                updateTurn(data);
                 break;
             case 'move':
                 clearSelected();
                 clearMovablePiece();
                 updateBoard(data);
+                updateTurn(data);
                 break;
             case 'Wins!':
                 gameStarted = false;
                 break;
         }
-        updateTurn(data);
 
         document.querySelector('#chat-log').value += (data.message + '\n');
         chatLog.scrollTop(chatLog[0].scrollHeight + 30);
