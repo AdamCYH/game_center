@@ -54,17 +54,6 @@ class AnimalChessGameView(View):
             return render(request, 'animal_chess/login.html')
 
 
-def new_game(request):
-    name = request.session['name']
-
-    game = start_new_game(name)
-    context = {"game": game,
-               "player_id": game.player1.user_id}
-    request.session['code'] = game.id
-    # return render(request, 'animal_chess/game.html', context)
-    return redirect('/animal-chess/game/' + game.id)
-
-
 def join_page(request):
     if 'name' in request.session:
         return render(request, 'animal_chess/join.html')
@@ -74,6 +63,15 @@ def join_page(request):
 
 def access_game(request, game_id):
     if 'name' in request.session:
+        if game_id == 'new':
+            name = request.session['name']
+
+            game = start_new_game(name)
+            context = {"game": game,
+                       "player_id": game.player1.user_id}
+            request.session['code'] = game.id
+            # return render(request, 'animal_chess/game.html', context)
+            return redirect('/animal-chess/game/' + game.id)
         if game_id in games:
             game = games[game_id]
             context = {"game": game}
