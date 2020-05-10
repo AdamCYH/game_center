@@ -45,10 +45,7 @@ class AnimalChessGameView(View):
                     return render(request, 'animal_chess/home.html', context)
                 else:
                     game.player2 = AnimalChessPlayer(request.session.session_key, name)
-                    player_id = game.player2.user_id
-                    context = {"game": game,
-                               "player_id": player_id}
-                    # return render(request, 'animal_chess/game.html', context)
+                    request.session['code'] = game.id
                     return redirect('/animal-chess/game/' + game.id)
         else:
             return render(request, 'animal_chess/login.html')
@@ -69,9 +66,7 @@ def access_game(request, game_id):
             request.session['code'] = game.id
             return redirect('/animal-chess/game/' + game.id)
         if game_id in games:
-            # TODO need to check player id  or session key design
             game = games[game_id]
-            print(request.session.session_key)
             context = {"game": game,
                        "player_id": request.session.session_key}
             return render(request, 'animal_chess/game.html', context)
