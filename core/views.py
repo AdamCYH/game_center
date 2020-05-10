@@ -96,7 +96,7 @@ class UserView(View):
             request.session['name'] = name
         if request.POST.get("new_game") == "True":
             return redirect("/animal-chess/game")
-        return redirect("/animal-chess/" + request.GET["next"])
+        return redirect(request.GET["next"])
 
 
 def ready(request):
