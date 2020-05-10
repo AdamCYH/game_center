@@ -116,9 +116,29 @@ class AnimalChessBoard(Board):
     def get_movable_directions(self, src_piece):
 
         movable_directions = []
+        movable_coordinates = []
         for direction in AnimalChessPiece.directions.keys():
             dest_x = src_piece.x + AnimalChessPiece.directions[direction][0]
             dest_y = src_piece.y + AnimalChessPiece.directions[direction][1]
             if self.is_movable(src_piece, dest_x, dest_y):
                 movable_directions.append(direction)
-        return movable_directions
+                movable_coordinates.append((dest_x, dest_y))
+        return movable_directions, movable_coordinates
+
+    def serialize(self):
+        board_json = []
+        for row in self.coordinates:
+            row_json = []
+            for col in row:
+                if col is None:
+                    row_json.append({"piece": "hidden"})
+                elif isinstance(col, EmptyCard):
+                    row_json.append({"piece": "empty"})
+                else:
+                    if col.status == 1:
+                        row_json.append({"piece": col.name,
+                                         "player": col.player.user_id})
+                    else:
+                        row_json.append({"piece": "hidden"})
+            board_json.append(row_json)
+        return board_json

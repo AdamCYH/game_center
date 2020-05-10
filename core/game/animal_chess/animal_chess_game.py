@@ -1,8 +1,12 @@
 import datetime
+import random
+import string
 
 from core.game.animal_chess.animal_chess_board import AnimalChessBoard
-from core.game.animal_chess.animal_chess_piece import AnimalChessPiece
+from core.game.animal_chess.animal_chess_piece import EmptyCard
 from core.game.game import Game
+
+ID_LENGTH = 5
 
 
 class AnimalChessGame(Game):
@@ -14,10 +18,14 @@ class AnimalChessGame(Game):
         self.player1 = None
         self.player2 = None
         self.start_time = None
+        self.turn = None
 
     def new_game(self, player):
+        self.id = self.generate_id(ID_LENGTH)
         self.player1 = player
-
+        self.board = AnimalChessBoard()
+        self.player1.my_turn = True
+        self.turn = self.player1
         return
 
     def join_player(self, player):
@@ -28,25 +36,23 @@ class AnimalChessGame(Game):
             return "Waiting for player to join."
         if not self.player1.ready or not self.player2.ready:
             return "Please click ready before starting."
-        self.board = AnimalChessBoard()
         self.board.init_board(self.player1, self.player2)
         self.start_time = datetime.datetime.now()
-        self.player1.my_turn = True
         return True
 
     def check_win(self):
         if len(self.player1.piece_collection.pieces) == 0 and len(self.player2.piece_collection.pieces) == 0:
+            self.finished = True
             return True, None
         if len(self.player1.piece_collection.pieces) == 0:
+            self.finished = True
             return True, self.player2
         if len(self.player2.piece_collection.pieces) == 0:
+            self.finished = True
             return True, self.player1
         return False, None
 
-    def process_move(self, direction, src_piece):
-        dest_x = src_piece.x + AnimalChessPiece.directions[direction][0]
-        dest_y = src_piece.y + AnimalChessPiece.directions[direction][1]
-        dest_piece = self.board.get_piece(dest_x, dest_y)
+    def process_move(self, src_piece, dest_piece):
         self.board.process_piece_move(src_piece, dest_piece)
 
     def within_game_time_limit(self):
@@ -77,9 +83,40 @@ class AnimalChessGame(Game):
 
     def switch_turn(self):
         if self.player1.my_turn:
-            turn = self.player2
+            self.turn = self.player2
         else:
-            turn = self.player1
+            self.turn = self.player1
         self.player1.my_turn = not self.player1.my_turn
         self.player2.my_turn = not self.player2.my_turn
-        return turn
+        return self.turn
+
+    def select_piece(self, x, y):
+        piece = self.board.get_piece(x, y)
+        if piece.status == 0:
+            piece.flip()
+            self.switch_turn()
+            return False, None
+        elif isinstance(piece, EmptyCard):
+            return False, None
+        elif piece.player != self.turn:
+            return False, None
+        else:
+            movable_directions, movable_coordinates = self.board.get_movable_directions(piece)
+            if len(movable_directions) > 0:
+                return True, movable_coordinates
+            else:
+                return False, None
+
+    def move_piece(self, src_coordinate, dest_coordinate):
+        src_piece = self.board.get_piece(src_coordinate[0], src_coordinate[1])
+        dest_piece = self.board.get_piece(dest_coordinate[0], dest_coordinate[1])
+        movable_directions, movable_coordinates = self.board.get_movable_directions(src_piece)
+        if dest_coordinate not in movable_coordinates:
+            return
+        self.process_move(src_piece, dest_piece)
+        self.switch_turn()
+
+    @staticmethod
+    def generate_id(length):
+        return ''.join(random.choices(string.ascii_uppercase +
+                                      string.digits, k=length))

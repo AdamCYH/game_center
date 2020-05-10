@@ -4,11 +4,9 @@ class PieceCollection:
 
 
 class Piece:
-    # Status 0  Hidden
-    # Status 1  Shown
 
     def __init__(self, player):
-        self.animal = None
+        self.name = None
         self.status = 0
         self.player = player
         self.x = None
@@ -30,7 +28,7 @@ class Piece:
     def __str__(self):
         if self.status == 0:
             return "#####"
-        return "{}:{}".format(self.player, self.animal)
+        return "{}:{}".format(self.player, self.name)
 
     def __repr__(self):
-        return "{}:{}".format(self.player, self.animal)
+        return "{}:{}".format(self.player, self.name)

@@ -32,3 +32,6 @@ class Board:
                 board_string += PRINT_WIDTH.format(str(self.coordinates[r][c]))
             board_string += "\n"
         return board_string
+
+    def serialize(self):
+        pass

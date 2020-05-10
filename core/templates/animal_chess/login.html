@@ -1,0 +1,25 @@
+
+
+{% extends "core/base.html" %}
+
+{% load static %}
+
+{% block header %}
+{#    <link rel="stylesheet" href="{% static 'animal_chess/css/index.css' %}">#}
+{% endblock %}
+
+{% block content %}
+    <form name="login_form" action="{% url 'animal-user' %}" method="POST">
+    <input hidden name="new_game" value="{{ new_game }}">
+        <table>
+            <tr>
+                <td width="50">Enter your name:</td>
+                <td><input type="text" name="name"></td>
+                <td><input type="submit" value="Start"></td>
+            </tr>
+
+        </table>
+
+        {% csrf_token %}
+    </form>
+{% endblock %}
