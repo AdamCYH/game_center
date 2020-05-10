@@ -45,7 +45,6 @@ class ChatConsumer(WebsocketConsumer):
                     game.player1.change_status()
                 else:
                     game.player2.change_status()
-
                 if game.player1 and game.player2 and game.player1.ready and game.player2.ready:
                     action = 'start game'
                     game.start_game()
