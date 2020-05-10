@@ -3,12 +3,14 @@ const JOIN_ACTION = 'join';
 const READY_ACTION = 'ready';
 const SELECT_ACTION = 'select';
 const MOVE_ACTION = 'move';
+const RECONNECT_ACTION = 'reconnect';
 const iconPath = "/static/icon/";
 
-let playerName = "";
+let myPlayerName = "";
 let myPlayerId = "";
 let player1Id;
 let player2Id;
+let myStatus;
 
 let chatSocket = null;
 let chatLog = null;
@@ -21,10 +23,11 @@ $(document).ready(function () {
     const gameId = $("#game-id").html();
     chatLog = $("#chat-log");
 
-    playerName = $("#player-name").html();
+    myPlayerName = $("#my-player-name").html();
     myPlayerId = $("#my-player-id").html();
     player1Id = $("#player1-id").html();
     player2Id = $("#player2-id").html();
+    myStatus = $("#my-status").html();
 
     chatSocket = new WebSocket(
         'ws://'
@@ -35,13 +38,23 @@ $(document).ready(function () {
     );
 
     chatSocket.onopen = function (e) {
-        message = {
-            'action': JOIN_ACTION,
-            'player_id': myPlayerId,
-            'player_name': playerName,
-            'gameID': gameId
-        };
-        send(message);
+        if (myStatus === "reconnect") {
+            message = {
+                'action': RECONNECT_ACTION,
+                'player_id': myPlayerId,
+                'player_name': myPlayerName,
+                'gameID': gameId
+            };
+            send(message);
+        } else {
+            message = {
+                'action': JOIN_ACTION,
+                'player_id': myPlayerId,
+                'player_name': myPlayerName,
+                'gameID': gameId
+            };
+            send(message);
+        }
     };
 
 
@@ -61,6 +74,13 @@ $(document).ready(function () {
                     joinPlayer(data.player_name);
                 }
                 updateChat(data);
+                updateBoard(data);
+                break;
+            case 'reconnect':
+                gameStarted = true;
+                updateChat(data);
+                updateBoard(data);
+                updateTurn(data);
                 break;
             case 'start game':
                 gameStarted = true;
@@ -108,10 +128,9 @@ $(document).ready(function () {
     };
 
     $(".piece").on('click', function () {
-
         message = {
             'player_id': myPlayerId,
-            'player_name': playerName,
+            'player_name': myPlayerName,
             'gameID': gameId,
             'coordinate': this.id,
         };
@@ -132,7 +151,7 @@ $(document).ready(function () {
         message = {
             'action': READY_ACTION,
             'player_id': myPlayerId,
-            'player_name': playerName,
+            'player_name': myPlayerName,
             'gameID': gameId
         };
         send(message);
@@ -144,7 +163,7 @@ $(document).ready(function () {
             'message': messageInputDom.val(),
             'action': CHAT_ACTION,
             'player_id': myPlayerId,
-            'player_name': playerName,
+            'player_name': myPlayerName,
             'gameID': gameId
         };
         send(message);

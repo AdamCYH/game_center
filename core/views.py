@@ -39,14 +39,7 @@ class AnimalChessGameView(View):
                 context = {"msg": MessageTemplates.GAME_NOT_FOUND}
                 return render(request, 'animal_chess/home.html', context)
             else:
-                game = games[code]
-                if game.player2 is not None:
-                    context = {"msg": MessageTemplates.GAME_FULL}
-                    return render(request, 'animal_chess/home.html', context)
-                else:
-                    game.player2 = AnimalChessPlayer(request.session.session_key, name)
-                    request.session['code'] = game.id
-                    return redirect('/animal-chess/game/' + game.id)
+                return redirect('/animal-chess/game/' + code)
         else:
             return render(request, 'animal_chess/login.html')
 
@@ -60,16 +53,32 @@ def join_page(request):
 
 def access_game(request, game_id):
     if 'name' in request.session:
+        name = request.session['name']
         if game_id == 'new':
-            name = request.session['name']
             game = start_new_game(name, request.session.session_key)
             request.session['code'] = game.id
             return redirect('/animal-chess/game/' + game.id)
         if game_id in games:
+            user_id = request.session.session_key
             game = games[game_id]
-            context = {"game": game,
-                       "player_id": request.session.session_key}
-            return render(request, 'animal_chess/game.html', context)
+
+            # if player1, can only be reconnection
+            if (game.player1 and game.player1.user_id == user_id) or (game.player2 and game.player2.user_id == user_id):
+                context = {"game": game,
+                           "player_id": user_id,
+                           "status": "reconnect"}
+                return render(request, 'animal_chess/game.html', context)
+            # if user is not player1 nor player2, game is full
+            elif (game.player1 and game.player1.user_id != user_id) and (game.player2 and game.player2.user_id != user_id):
+                context = {"msg": MessageTemplates.GAME_FULL}
+                return render(request, 'animal_chess/home.html', context)
+            # game has space
+            else:
+                request.session['code'] = game.id
+                context = {"game": game,
+                           "player_id": user_id}
+                game.player2 = AnimalChessPlayer(request.session.session_key, name)
+                return render(request, 'animal_chess/game.html', context)
         else:
             context = {"msg": MessageTemplates.GAME_NOT_FOUND}
             return render(request, 'animal_chess/home.html', context)
