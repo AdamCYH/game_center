@@ -16,10 +16,34 @@
         <tr>
             <td><a href="{% url 'animal-join-page' %}">Join Game</a></td>
         </tr>
-            <tr>
-            <td><a href="{% url 'animal-game' %}?reconnect=true">Reconnect</a></td>
-        </tr>
 
     </table>
     <p>{{ msg }}</p>
+
+
+    {% if game_in_progress %}
+        <div id="id01" class="modal" style="display: block">
+            <div class="modal-content animate">
+                <div class="modal-top">
+                    <span onclick="document.getElementById('id01').style.display='block'" class="close"
+                          title="Close Modal">&times;</span>
+                </div>
+
+
+                <div class="modal-container" style="background-color:#f1f1f1">
+                    <h5 id="win-message">You have a game in progress, do you want to continue?</h5>
+                    <div class="btn-container">
+                        <a type="button" href="{% url 'animal-access-game' game_id=code %}"
+                           class="button againbtn">
+                            Yes
+                        </a>
+                        <a type="button" href="{% url 'animal-access-game' game_id='new' %}"
+                           class="button leavebtn">
+                            Start New
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

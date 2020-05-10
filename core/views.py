@@ -12,37 +12,23 @@ def home_page(request):
     return render(request, 'animal_chess/home.html')
 
 
-def join_page(request):
-    if 'name' in request.session:
-        return render(request, 'animal_chess/join.html')
-    else:
-        return render(request, 'animal_chess/login.html')
-
-
 class AnimalChessGameView(View):
     # get request, return the template
     def get(self, request):
-        if request.GET.get("reconnect"):
-            if 'code' in request.session and 'name' in request.session:
+        if 'name' in request.session:
+            # if player has a game in progress
+            if 'code' in request.session:
                 code = request.session['code']
-                name = request.session['name']
                 if code in games:
                     game = games[code]
-                    context = {"game", game}
-                    return render(request, 'animal_chess/game.html', context)
-            context = {'msg': MessageTemplates.GAME_NOT_FOUND}
-            return render(request, 'animal_chess/home.html', context)
+                    context = {"code": game.id,
+                               "game_in_progress": True}
+                    return render(request, 'animal_chess/home.html', context)
+            return redirect("/animal-chess/game/new")
 
-        if 'name' in request.session:
-            name = request.session['name']
-
-            game = start_new_game(name)
-            context = {"game": game,
-                       "player_id": game.player1.user_id}
-            return render(request, 'animal_chess/game.html', context)
+        # Name is not set, redirect to login page.
         else:
-            contest = {"new_game": True}
-            return render(request, 'animal_chess/login.html', contest)
+            return redirect('/animal-chess/user?next=game/new')
 
     def post(self, request):
         clean_up_games()
@@ -58,22 +44,55 @@ class AnimalChessGameView(View):
                     context = {"msg": MessageTemplates.GAME_FULL}
                     return render(request, 'animal_chess/home.html', context)
                 else:
-                    game.player2 = AnimalChessPlayer("2", name)
+                    game.player2 = AnimalChessPlayer(request.session.session_key, name)
                     player_id = game.player2.user_id
                     context = {"game": game,
                                "player_id": player_id}
-                    return render(request, 'animal_chess/game.html', context)
+                    # return render(request, 'animal_chess/game.html', context)
+                    return redirect('/animal-chess/game/' + game.id)
         else:
             return render(request, 'animal_chess/login.html')
 
 
+def join_page(request):
+    if 'name' in request.session:
+        return render(request, 'animal_chess/join.html')
+    else:
+        return redirect('/animal-chess/user?next=join_game')
+
+
+def access_game(request, game_id):
+    if 'name' in request.session:
+        if game_id == 'new':
+            name = request.session['name']
+            game = start_new_game(name, request.session.session_key)
+            request.session['code'] = game.id
+            return redirect('/animal-chess/game/' + game.id)
+        if game_id in games:
+            # TODO need to check player id  or session key design
+            game = games[game_id]
+            print(request.session.session_key)
+            context = {"game": game,
+                       "player_id": request.session.session_key}
+            return render(request, 'animal_chess/game.html', context)
+        else:
+            context = {"msg": MessageTemplates.GAME_NOT_FOUND}
+            return render(request, 'animal_chess/home.html', context)
+    else:
+        return redirect("/animal-chess/user?next=/animal-chess/game/" + game_id)
+
+
 class UserView(View):
+    def get(self, request):
+        return render(request, 'animal_chess/login.html')
+
     def post(self, request):
-        name = request.POST.get("name")
-        request.session['name'] = name
+        if request.POST:
+            name = request.POST.get("name")
+            request.session['name'] = name
         if request.POST.get("new_game") == "True":
             return redirect("/animal-chess/game")
-        return render(request, 'animal_chess/join.html')
+        return redirect("/animal-chess/" + request.GET["next"])
 
 
 def ready(request):
@@ -85,9 +104,9 @@ class MessageTemplates:
     GAME_FULL = "The game you are trying to enter is full is full"
 
 
-def start_new_game(name):
+def start_new_game(name, user_id):
     game = AnimalChessGame()
-    player = AnimalChessPlayer("1", name)
+    player = AnimalChessPlayer(user_id, name)
     game.new_game(player)
     code = game.id
     games[code] = game

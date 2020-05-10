@@ -1,5 +1,4 @@
 """animal_chess URL Configuration
-
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
 Examples:
@@ -21,6 +20,7 @@ from core.views import AnimalChessGameView, UserView
 urlpatterns = [
     path('', views.home_page, name='animal-chess-home'),
     path('game/', AnimalChessGameView.as_view(), name='animal-game'),
+    path('game/<str:game_id>', views.access_game, name='animal-access-game'),
     path('user/', UserView.as_view(), name='animal-user'),
     path('join_game', views.join_page, name='animal-join-page'),
     path('ready', views.ready, name='animal-ready'),
