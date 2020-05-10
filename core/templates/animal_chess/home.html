@@ -5,18 +5,16 @@
 {% load static %}
 
 {% block header %}
-    {#    <link rel="stylesheet" href="{% static 'animal_chess/css/index.css' %}">#}
+        <link rel="stylesheet" href="{% static 'animal_chess/css/index.css' %}">
 {% endblock %}
 
 {% block content %}
-    <table>
+    <table class="games-table">
+        <tr><img src="static/icon/animal-logo.png"></tr>
         <tr>
             <td><a href="{% url 'animal-game' %}">Start Game</a></td>
-        </tr>
-        <tr>
             <td><a href="{% url 'animal-join-page' %}">Join Game</a></td>
         </tr>
-
     </table>
     <p>{{ msg }}</p>
 

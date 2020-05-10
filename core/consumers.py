@@ -50,6 +50,8 @@ class ChatConsumer(WebsocketConsumer):
                     game.start_game()
             elif action == 'join':
                 pass
+            elif action == 'reconnect':
+                pass
             elif action == 'select':
                 if player_id == game.turn.user_id:
                     x, y = data['coordinate'].split("-")
@@ -77,7 +79,6 @@ class ChatConsumer(WebsocketConsumer):
                             else:
                                 message.update({"winner": winner.name})
                     message.update({'coordinate': [src_x, src_y]})
-
             board = game.board.serialize()
             print(game.board)
             message.update({
