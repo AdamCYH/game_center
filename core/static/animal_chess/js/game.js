@@ -3,12 +3,12 @@ const JOIN_ACTION = 'join';
 const READY_ACTION = 'ready';
 const SELECT_ACTION = 'select';
 const MOVE_ACTION = 'move';
-const player1Id = "1";
-const player2Id = "2";
 const iconPath = "/static/icon/";
 
 let playerName = "";
 let myPlayerId = "";
+let player1Id;
+let player2Id;
 
 let chatSocket = null;
 let chatLog = null;
@@ -22,7 +22,9 @@ $(document).ready(function () {
     chatLog = $("#chat-log");
 
     playerName = $("#player-name").html();
-    myPlayerId = $("#player-id").html();
+    myPlayerId = $("#my-player-id").html();
+    player1Id = $("#player1-id").html();
+    player2Id = $("#player2-id").html();
 
     chatSocket = new WebSocket(
         'ws://'

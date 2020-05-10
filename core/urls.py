@@ -21,7 +21,6 @@ urlpatterns = [
     path('', views.home_page, name='animal-chess-home'),
     path('game/', AnimalChessGameView.as_view(), name='animal-game'),
     path('game/<str:game_id>', views.access_game, name='animal-access-game'),
-    # path('game/new/', views.new_game, name='animal-new-game'),
     path('user/', UserView.as_view(), name='animal-user'),
     path('join_game', views.join_page, name='animal-join-page'),
     path('ready', views.ready, name='animal-ready'),

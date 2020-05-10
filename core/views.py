@@ -44,7 +44,7 @@ class AnimalChessGameView(View):
                     context = {"msg": MessageTemplates.GAME_FULL}
                     return render(request, 'animal_chess/home.html', context)
                 else:
-                    game.player2 = AnimalChessPlayer("2", name)
+                    game.player2 = AnimalChessPlayer(request.session.session_key, name)
                     player_id = game.player2.user_id
                     context = {"game": game,
                                "player_id": player_id}
@@ -58,23 +58,22 @@ def join_page(request):
     if 'name' in request.session:
         return render(request, 'animal_chess/join.html')
     else:
-        return render(request, 'animal_chess/login.html')
+        return redirect('/animal-chess/user?next=join_game')
 
 
 def access_game(request, game_id):
     if 'name' in request.session:
         if game_id == 'new':
             name = request.session['name']
-
-            game = start_new_game(name)
-            context = {"game": game,
-                       "player_id": game.player1.user_id}
+            game = start_new_game(name, request.session.session_key)
             request.session['code'] = game.id
-            # return render(request, 'animal_chess/game.html', context)
             return redirect('/animal-chess/game/' + game.id)
         if game_id in games:
+            # TODO need to check player id  or session key design
             game = games[game_id]
-            context = {"game": game}
+            print(request.session.session_key)
+            context = {"game": game,
+                       "player_id": request.session.session_key}
             return render(request, 'animal_chess/game.html', context)
         else:
             context = {"msg": MessageTemplates.GAME_NOT_FOUND}
@@ -105,9 +104,9 @@ class MessageTemplates:
     GAME_FULL = "The game you are trying to enter is full is full"
 
 
-def start_new_game(name):
+def start_new_game(name, user_id):
     game = AnimalChessGame()
-    player = AnimalChessPlayer("1", name)
+    player = AnimalChessPlayer(user_id, name)
     game.new_game(player)
     code = game.id
     games[code] = game
