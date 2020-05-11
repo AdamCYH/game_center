@@ -21,9 +21,10 @@ class AnimalChessGameView(View):
                 code = request.session['code']
                 if code in games:
                     game = games[code]
-                    context = {"code": game.id,
-                               "game_in_progress": True}
-                    return render(request, 'animal_chess/home.html', context)
+                    if not game.finished:
+                        context = {"code": game.id,
+                                   "game_in_progress": True}
+                        return render(request, 'animal_chess/home.html', context)
             return redirect("/animal-chess/game/new")
 
         # Name is not set, redirect to login page.
