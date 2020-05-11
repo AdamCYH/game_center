@@ -28,7 +28,7 @@ class AnimalChessGameView(View):
 
         # Name is not set, redirect to login page.
         else:
-            return redirect('/animal-chess/user?next=game/new')
+            return redirect('/animal-chess/user?next=/animal-chess/game/new')
 
     def post(self, request):
         clean_up_games()
