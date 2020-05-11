@@ -7,9 +7,13 @@
 body {
     width: 100%;
     margin: auto;
-    max-width: 763px;
+
 }
 
+.card {
+    margin: 20px 20px;
+    float: left;
+}
 
 /* The Modal (background) */
 .modal {
