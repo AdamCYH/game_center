@@ -5,7 +5,7 @@
 {% load static %}
 
 {% block header %}
-    <link rel="stylesheet" href="{% static 'animal_chess/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
             <p class="card-text">Jungle is a two-player strategy game and has been cited as resembling the Western game
                 Stratego.</p>
             <a href="{% url 'animal-game' %}" class="btn btn-primary">Start Game</a>
-            <a href="{% url 'animal-join-page' %}" class="btn btn-secondary">Join Game</a>
+            <a href="{% url 'animal-join-page' %}" class="btn btn-info">Join Game</a>
         </div>
     </div>
     <div class="card" style="width: 18rem;">
@@ -24,7 +24,7 @@
         <div class="card-body">
             <h5 class="card-title">Connect Four</h5>
             <p class="card-text">Coming soon</p>
-            <a href="#" class="btn btn-primary">Start Game</a>
+            <a href="#" class="btn btn-secondary">Start Game</a>
             <a href="#" class="btn btn-secondary">Join Game</a>
         </div>
     </div>
@@ -33,7 +33,7 @@
         <div class="card-body">
             <h5 class="card-title">Five in a row</h5>
             <p class="card-text">Coming soon</p>
-            <a href="#" class="btn btn-primary">Start Game</a>
+            <a href="#" class="btn btn-secondary">Start Game</a>
             <a href="#" class="btn btn-secondary">Join Game</a>
         </div>
     </div>
@@ -44,7 +44,7 @@
         <div id="id01" class="modal" style="display: block">
             <div class="modal-content animate">
                 <div class="modal-top">
-                    <span onclick="document.getElementById('id01').style.display='block'" class="close"
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close"
                           title="Close Modal">&times;</span>
                 </div>
 
@@ -65,4 +65,15 @@
             </div>
         </div>
     {% endif %}
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 {% endblock %}
