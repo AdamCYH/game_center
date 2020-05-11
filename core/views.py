@@ -48,7 +48,7 @@ def join_page(request):
     if 'name' in request.session:
         return render(request, 'animal_chess/join.html')
     else:
-        return redirect('/animal-chess/user?next=join_game')
+        return redirect('/animal-chess/user?next=/animal-chess/join_game')
 
 
 def access_game(request, game_id):
