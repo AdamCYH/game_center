@@ -18,6 +18,7 @@ class AnimalChessGame(Game):
         self.player1 = None
         self.player2 = None
         self.start_time = None
+        self.started = False
         self.turn = None
 
     def new_game(self, player):
@@ -38,6 +39,7 @@ class AnimalChessGame(Game):
             return "Please click ready before starting."
         self.board.init_board(self.player1, self.player2)
         self.start_time = datetime.datetime.now()
+        self.started = True
         return True
 
     def check_win(self):

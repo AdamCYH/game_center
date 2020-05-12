@@ -21,14 +21,15 @@ class AnimalChessGameView(View):
                 code = request.session['code']
                 if code in games:
                     game = games[code]
-                    context = {"code": game.id,
-                               "game_in_progress": True}
-                    return render(request, 'animal_chess/home.html', context)
+                    if not game.finished:
+                        context = {"code": game.id,
+                                   "game_in_progress": True}
+                        return render(request, 'animal_chess/home.html', context)
             return redirect("/animal-chess/game/new")
 
         # Name is not set, redirect to login page.
         else:
-            return redirect('/animal-chess/user?next=game/new')
+            return redirect('/animal-chess/user?next=/animal-chess/game/new')
 
     def post(self, request):
         clean_up_games()
@@ -48,7 +49,7 @@ def join_page(request):
     if 'name' in request.session:
         return render(request, 'animal_chess/join.html')
     else:
-        return redirect('/animal-chess/user?next=join_game')
+        return redirect('/animal-chess/user?next=/animal-chess/join_game')
 
 
 def access_game(request, game_id):
@@ -67,9 +68,12 @@ def access_game(request, game_id):
                 context = {"game": game,
                            "player_id": user_id,
                            "status": "reconnect"}
+                if not game.started:
+                    context['status'] = 'join'
                 return render(request, 'animal_chess/game.html', context)
             # if user is not player1 nor player2, game is full
-            elif (game.player1 and game.player1.user_id != user_id) and (game.player2 and game.player2.user_id != user_id):
+            elif (game.player1 and game.player1.user_id != user_id) and (
+                    game.player2 and game.player2.user_id != user_id):
                 context = {"msg": MessageTemplates.GAME_FULL}
                 return render(request, 'animal_chess/home.html', context)
             # game has space

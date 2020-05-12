@@ -5,21 +5,22 @@
 {% load static %}
 
 {% block header %}
-{#    <link rel="stylesheet" href="{% static 'animal_chess/css/index.css' %}">#}
+    {#    <link rel="stylesheet" href="{% static 'animal_chess/css/index.css' %}">#}
 {% endblock %}
 
 {% block content %}
-    <h1>Please enter the code here</h1>
-    <form name="join_form" action="{% url 'animal-game' %}" method="POST">
-        <table>
-            <tr>
-                <td width="50">Game Code:</td>
-                <td><input type="text" name="code"></td>
-                <td><input type="submit" value="Join"></td>
-            </tr>
+    <div class="form-container">
+        <form name="join_form" action="{% url 'animal-game' %}" method="POST">
+            <table>
+                <tr>
+                    <td>Game Code:</td>
+                    <td><input type="text" name="code"></td>
+                    <td><input class="btn btn-info"  type="submit" value="Join"></td>
+                </tr>
 
-        </table>
+            </table>
 
-        {% csrf_token %}
-    </form>
+            {% csrf_token %}
+        </form>
+    </div>
 {% endblock %}
