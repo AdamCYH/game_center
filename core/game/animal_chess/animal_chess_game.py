@@ -1,6 +1,5 @@
 import datetime
-import random
-import string
+
 
 from core.game.animal_chess.animal_chess_board import AnimalChessBoard
 from core.game.animal_chess.animal_chess_piece import EmptyCard
@@ -118,7 +117,3 @@ class AnimalChessGame(Game):
         self.process_move(src_piece, dest_piece)
         self.switch_turn()
 
-    @staticmethod
-    def generate_id(length):
-        return ''.join(random.choices(string.ascii_uppercase +
-                                      string.digits, k=length))

@@ -31,7 +31,10 @@ class FiveInARowBoard(Board):
                 self.coordinates[r][c] = EmptyPiece()
 
     def get_piece(self, x, y):
-        pass
+        return self.coordinates[x][y]
+
+    def set_piece(self, piece, x, y):
+        self.coordinates[x][y] = piece
 
     def process_piece_move(self, src_piece, dest_piece):
         pass
