@@ -9,14 +9,13 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-md">
-        <h1>Please enter the code here</h1>
+    <div class="form-container">
         <form name="join_form" action="{% url 'animal-game' %}" method="POST">
             <table>
                 <tr>
                     <td>Game Code:</td>
                     <td><input type="text" name="code"></td>
-                    <td><input type="submit" value="Join"></td>
+                    <td><input class="btn btn-info"  type="submit" value="Join"></td>
                 </tr>
 
             </table>
