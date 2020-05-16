@@ -14,8 +14,8 @@ Including another URLconf
 """
 from django.urls import path
 
-from core import views
-from core.views import AnimalChessGameView, UserView
+from core.animal_chess import views
+from core.animal_chess.views import AnimalChessGameView, UserView
 
 urlpatterns = [
     path('', views.home_page, name='animal-chess-home'),

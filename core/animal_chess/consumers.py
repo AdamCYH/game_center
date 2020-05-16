@@ -3,7 +3,7 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
-from core.views import games
+from core.animal_chess.views import games
 
 
 class ChatConsumer(WebsocketConsumer):

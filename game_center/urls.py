@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path, include
 
-from core import views
+from core.animal_chess import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
