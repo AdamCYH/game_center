@@ -44,7 +44,7 @@ class AnimalChessGameView(View):
 
 def join_page(request):
     if 'name' in request.session:
-        return render(request, 'animal_chess/join.html')
+        return render(request, 'core/join.html')
     else:
         return redirect('/animal-chess/user?next=/animal-chess/join_game')
 
