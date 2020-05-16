@@ -1,12 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from core.views import MessageTemplates
+from core.views import MessageTemplates, games
 from games.animal_chess.animal_chess_game import AnimalChessGame
 from games.animal_chess.animal_chess_player import AnimalChessPlayer
-
-games = {}
-CODE_LENGTH = 5
 
 
 class AnimalChessGameView(View):
@@ -87,9 +84,3 @@ def start_new_game(name, user_id):
     code = game.id
     games[code] = game
     return game
-
-
-def clean_up_games():
-    for g in list(games):
-        if games[g].finished:
-            del games[g]
