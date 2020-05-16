@@ -14,8 +14,6 @@ if __name__ == '__main__':
 
     game.start_game()
 
-    player_turn = player1
-
     finish = False
     winner = None
 
@@ -23,14 +21,13 @@ if __name__ == '__main__':
         print()
         print(game.board)
         print("Time remaining: {}".format(game.max_duration - (datetime.datetime.now() - game.start_time).seconds))
-        print("### {}'s turn ###".format(player_turn.name))
+        print("### {}'s turn ###".format(game.turn))
         coords = input("Click coordinate (x y), enter x [space] y\n")
         parse_successful, x, y = game.parse_input_to_coords(coords)
         if not parse_successful:
             continue
 
         place_successful, x, y = game.place_piece(x, y)
-
         finish, winner = game.check_win((x, y))
 
     if winner is None:
