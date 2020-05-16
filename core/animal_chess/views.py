@@ -8,13 +8,10 @@ games = {}
 CODE_LENGTH = 5
 
 
-def home_page(request):
-    return render(request, 'animal_chess/home.html')
-
-
 class AnimalChessGameView(View):
     # get request, return the template
     def get(self, request):
+        print(request.get_full_path())
         if 'name' in request.session:
             # if player has a game in progress
             if 'code' in request.session:
@@ -101,10 +98,6 @@ class UserView(View):
         if request.POST.get("new_game") == "True":
             return redirect("/animal-chess/game")
         return redirect(request.GET["next"])
-
-
-def ready(request):
-    pass
 
 
 class MessageTemplates:
