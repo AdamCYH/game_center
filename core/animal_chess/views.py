@@ -39,7 +39,7 @@ class AnimalChessGameView(View):
             else:
                 return redirect('/animal-chess/game/' + code)
         else:
-            return render(request, 'animal_chess/login.html')
+            return render(request, 'core/login.html')
 
 
 def join_page(request):
@@ -89,7 +89,7 @@ def access_game(request, game_id):
 
 class UserView(View):
     def get(self, request):
-        return render(request, 'animal_chess/login.html')
+        return render(request, 'core/login.html')
 
     def post(self, request):
         if request.POST:
