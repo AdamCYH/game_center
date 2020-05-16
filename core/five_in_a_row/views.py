@@ -59,7 +59,7 @@ def access_game(request, game_id):
                            "status": "reconnect"}
                 if not game.started:
                     context['status'] = 'join'
-                return render(request, 'five-in-a-row/game.html', context)
+                return render(request, 'five_in_a_row/game.html', context)
             # if user is not player1 nor player2, game is full
             elif (game.player1 and game.player1.user_id != user_id) and (
                     game.player2 and game.player2.user_id != user_id):
@@ -71,7 +71,7 @@ def access_game(request, game_id):
                 context = {"game": game,
                            "player_id": user_id}
                 game.player2 = FiveInARowPlayer(request.session.session_key, name)
-                return render(request, 'five-in-a-row/game.html', context)
+                return render(request, 'five_in_a_row/game.html', context)
         else:
             context = {"msg": MessageTemplates.GAME_NOT_FOUND}
             return render(request, 'core/home.html', context)

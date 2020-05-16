@@ -34,3 +34,14 @@ if __name__ == '__main__':
         print("TIE!!!")
     else:
         print(winner.name + " is the winner, Congratulations!!!")
+
+
+def generate_board_html():
+    string = ""
+    for row in range(15):
+        string += "<tr>"
+        for col in range(15):
+            string += "<td id=\"{}-{}\" class=\"grid\"></td>".format(row, col)
+        string += "</tr>"
+
+    print(string)
