@@ -19,5 +19,3 @@ class Board:
     def serialize(self):
         pass
 
-    def serialize(self):
-        pass
