@@ -1,5 +1,3 @@
-from random import randint
-
 from core.game.board import Board
 from core.game.five_in_a_row.fiar_piece import EmptyPiece
 
@@ -9,21 +7,21 @@ PRINT_WIDTH = "{0: <3}"
 class FiveInARowBoard(Board):
     def __init__(self):
         super().__init__()
-        self.coordinates = [[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]]
+        self.coordinates = ((None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
+                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None))
         self.width = 15
         self.height = 15
 
