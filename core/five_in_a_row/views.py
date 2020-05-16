@@ -1,7 +1,7 @@
 from django.views import View
 
 
-class AnimalChessGameView(View):
+class FiveInARowView(View):
     # get request, return the template
     def get(self, request):
         pass
