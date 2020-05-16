@@ -21,7 +21,7 @@ class AnimalChessGameView(View):
                     if not game.finished:
                         context = {"code": game.id,
                                    "game_in_progress": True}
-                        return render(request, 'animal_chess/home.html', context)
+                        return render(request, 'core/home.html', context)
             return redirect("/animal-chess/game/new")
 
         # Name is not set, redirect to login page.
@@ -35,7 +35,7 @@ class AnimalChessGameView(View):
             name = request.session['name']
             if code not in games:
                 context = {"msg": MessageTemplates.GAME_NOT_FOUND}
-                return render(request, 'animal_chess/home.html', context)
+                return render(request, 'core/home.html', context)
             else:
                 return redirect('/animal-chess/game/' + code)
         else:
@@ -72,7 +72,7 @@ def access_game(request, game_id):
             elif (game.player1 and game.player1.user_id != user_id) and (
                     game.player2 and game.player2.user_id != user_id):
                 context = {"msg": MessageTemplates.GAME_FULL}
-                return render(request, 'animal_chess/home.html', context)
+                return render(request, 'core/home.html', context)
             # game has space
             else:
                 request.session['code'] = game.id
@@ -82,7 +82,7 @@ def access_game(request, game_id):
                 return render(request, 'animal_chess/game.html', context)
         else:
             context = {"msg": MessageTemplates.GAME_NOT_FOUND}
-            return render(request, 'animal_chess/home.html', context)
+            return render(request, 'core/home.html', context)
     else:
         return redirect("/animal-chess/user?next=/animal-chess/game/" + game_id)
 
