@@ -1,5 +1,5 @@
-from game.piece import Piece
-from game.player import Player
+from games.piece import Piece
+from games.player import Player
 
 
 class FiveInARowPiece(Piece):

@@ -1,5 +1,5 @@
-from game.board import Board
-from game.five_in_a_row import EmptyPiece
+from games.board import Board
+from games.five_in_a_row.fiar_piece import EmptyPiece
 
 PRINT_WIDTH = "{0: <3}"
 

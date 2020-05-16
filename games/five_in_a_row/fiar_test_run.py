@@ -1,7 +1,7 @@
 import datetime
 
-from game.five_in_a_row import FiveInARowGame
-from game.five_in_a_row import FiveInARowPlayer
+from games.five_in_a_row.fiar_game import FiveInARowGame
+from games.five_in_a_row.fiar_player import FiveInARowPlayer
 
 if __name__ == '__main__':
     game = FiveInARowGame()

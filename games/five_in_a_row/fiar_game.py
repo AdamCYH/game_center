@@ -1,9 +1,9 @@
 import copy
 import datetime
 
-from game.five_in_a_row import FiveInARowBoard
-from game.five_in_a_row import BlackPiece, WhitePiece
-from game.game import Game
+from games.five_in_a_row.fiar_board import FiveInARowBoard
+from games.five_in_a_row.fiar_piece import BlackPiece, WhitePiece
+from games.game import Game
 
 ID_LENGTH = 5
 

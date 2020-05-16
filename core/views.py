@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-games = {}
 CODE_LENGTH = 5
 
 
@@ -39,7 +38,3 @@ class MessageTemplates:
     GAME_FULL = "The game you are trying to enter is full is full"
 
 
-def clean_up_games():
-    for g in list(games):
-        if games[g].finished:
-            del games[g]
