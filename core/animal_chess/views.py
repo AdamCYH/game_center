@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
+from core.views import MessageTemplates
 from games.animal_chess.animal_chess_game import AnimalChessGame
 from games.animal_chess.animal_chess_player import AnimalChessPlayer
 
@@ -11,7 +12,6 @@ CODE_LENGTH = 5
 class AnimalChessGameView(View):
     # get request, return the template
     def get(self, request):
-        print(request.get_full_path())
         if 'name' in request.session:
             # if player has a game in progress
             if 'code' in request.session:
@@ -40,13 +40,6 @@ class AnimalChessGameView(View):
                 return redirect('/animal-chess/game/' + code)
         else:
             return render(request, 'core/login.html')
-
-
-def join_page(request):
-    if 'name' in request.session:
-        return render(request, 'core/join.html')
-    else:
-        return redirect('/animal-chess/user?next=/animal-chess/join_game')
 
 
 def access_game(request, game_id):
@@ -85,24 +78,6 @@ def access_game(request, game_id):
             return render(request, 'core/home.html', context)
     else:
         return redirect("/animal-chess/user?next=/animal-chess/game/" + game_id)
-
-
-class UserView(View):
-    def get(self, request):
-        return render(request, 'core/login.html')
-
-    def post(self, request):
-        if request.POST:
-            name = request.POST.get("name")
-            request.session['name'] = name
-        if request.POST.get("new_game") == "True":
-            return redirect("/animal-chess/game")
-        return redirect(request.GET["next"])
-
-
-class MessageTemplates:
-    GAME_NOT_FOUND = "No game found"
-    GAME_FULL = "The game you are trying to enter is full is full"
 
 
 def start_new_game(name, user_id):
