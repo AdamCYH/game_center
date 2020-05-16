@@ -1,8 +1,8 @@
 import datetime
 
-from game.animal_chess.animal_chess_board import AnimalChessBoard
-from game.animal_chess.animal_chess_piece import EmptyCard
-from game.game import Game
+from games.animal_chess.animal_chess_board import AnimalChessBoard
+from games.animal_chess.animal_chess_piece import EmptyCard
+from games.game import Game
 
 ID_LENGTH = 5
 
@@ -115,4 +115,3 @@ class AnimalChessGame(Game):
             return
         self.process_move(src_piece, dest_piece)
         self.switch_turn()
-
