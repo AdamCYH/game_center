@@ -23,7 +23,7 @@ class Game:
     def start_game(self):
         pass
 
-    def check_win(self):
+    def check_win(self, *args, **kwargs):
         pass
 
     @staticmethod

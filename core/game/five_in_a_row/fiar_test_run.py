@@ -16,7 +16,10 @@ if __name__ == '__main__':
 
     player_turn = player1
 
-    while not game.check_win()[0] and game.within_game_time_limit():
+    finish = False
+    winner = None
+
+    while not finish and game.within_game_time_limit():
         print()
         print(game.board)
         print("Time remaining: {}".format(game.max_duration - (datetime.datetime.now() - game.start_time).seconds))
@@ -28,9 +31,8 @@ if __name__ == '__main__':
 
         place_successful, x, y = game.place_piece(x, y)
 
-        # TODO validate the winning state
+        finish, winner = game.check_win((x, y))
 
-    finish, winner = game.check_win()
     if winner is None:
         print("TIE!!!")
     else:

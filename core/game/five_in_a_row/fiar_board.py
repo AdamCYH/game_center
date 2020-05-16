@@ -7,21 +7,21 @@ PRINT_WIDTH = "{0: <3}"
 class FiveInARowBoard(Board):
     def __init__(self):
         super().__init__()
-        self.coordinates = ((None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None),
-                            (None, None, None, None, None, None, None, None, None, None, None, None, None, None, None))
+        self.coordinates = ([None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+                            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None])
         self.width = 15
         self.height = 15
 
@@ -39,10 +39,18 @@ class FiveInARowBoard(Board):
     def process_piece_move(self, src_piece, dest_piece):
         pass
 
+    # Check if the piece can be placed here.
     def validate_position(self, x, y):
+        if not self.is_in_boundary(x, y):
+            return False
         if isinstance(self.coordinates[x][y], EmptyPiece):
             return True
         return False
+
+    def is_in_boundary(self, x, y):
+        if x >= self.height or x < 0 or y >= self.width or y < 0:
+            return False
+        return True
 
     def __str__(self):
         if self.coordinates is None:

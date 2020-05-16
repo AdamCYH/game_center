@@ -45,7 +45,28 @@ class FiveInARowGame(Game):
 
         return True
 
-    def check_win(self):
+    def check_win(self, src_coordinate):
+        directions = (((0, 1), (0, -1)), ((1, 1), (-1, -1)), ((1, 0), (-1, 0)), ((1, - 1), (-1, 1)))
+
+        src_x = src_coordinate[0]
+        src_y = src_coordinate[1]
+        piece = self.board.coordinates[src_x][src_y]
+        player = piece.player
+
+        for two_side_dirs in directions:
+            count = 1
+            for direction in two_side_dirs:
+                dest_x = src_x + direction[0]
+                dest_y = src_y + direction[1]
+                piece = self.board.coordinates[dest_x][dest_y]
+
+                while self.board.is_in_boundary(dest_x, dest_y) and piece.player == player:
+                    count += 1
+                    dest_x = dest_x + direction[0]
+                    dest_y = dest_y + direction[1]
+                    piece = self.board.coordinates[dest_x][dest_y]
+            if count >= 5:
+                return True, player
         return False, None
 
     def within_game_time_limit(self):
