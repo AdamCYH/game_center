@@ -1,4 +1,4 @@
-from core.game.player import Player
+from game.player import Player
 
 
 class FiveInARowPlayer(Player):

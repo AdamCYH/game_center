@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
 
-from core.game.animal_chess.animal_chess_game import AnimalChessGame
-from core.game.animal_chess.animal_chess_player import AnimalChessPlayer
+from game.animal_chess.animal_chess_game import AnimalChessGame
+from game.animal_chess.animal_chess_player import AnimalChessPlayer
 
 games = {}
 CODE_LENGTH = 5

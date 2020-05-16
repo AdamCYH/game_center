@@ -1,7 +1,7 @@
 import random
 
-from core.game.animal_chess.animal_chess_piece import AnimalChessPieceCollection, EmptyCard, AnimalChessPiece
-from core.game.board import Board
+from game.animal_chess.animal_chess_piece import AnimalChessPieceCollection, EmptyCard, AnimalChessPiece
+from game.board import Board
 
 PRINT_WIDTH = "{0: <15}"
 
