@@ -94,5 +94,6 @@ def start_new_game(name, user_id):
 
 def clean_up_games():
     for g in list(games):
-        if games[g].finished:
+        game = games[g]
+        if game.finished or not game.within_game_time_limit():
             del games[g]
