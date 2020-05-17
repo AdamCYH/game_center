@@ -36,5 +36,3 @@ def resolve_path(request, path):
 class MessageTemplates:
     GAME_NOT_FOUND = "No game found"
     GAME_FULL = "The game you are trying to enter is full is full"
-
-
