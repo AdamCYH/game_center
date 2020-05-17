@@ -96,7 +96,7 @@ class FiveInARowGame(Game):
             return False, 0, 0
 
     def place_piece(self, x, y):
-        if self.board.validate_position(x, y):
+        if self.board.is_available_space(x, y):
             self.board.set_piece(copy.copy(self.turn.piece_collection), x, y)
             self.switch_turn()
             return True, x, y

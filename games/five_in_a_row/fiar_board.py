@@ -36,11 +36,8 @@ class FiveInARowBoard(Board):
     def set_piece(self, piece, x, y):
         self.coordinates[x][y] = piece
 
-    def process_piece_move(self, src_piece, dest_piece):
-        pass
-
     # Check if the piece can be placed here.
-    def validate_position(self, x, y):
+    def is_available_space(self, x, y):
         if not self.is_in_boundary(x, y):
             return False
         if isinstance(self.coordinates[x][y], EmptyPiece):

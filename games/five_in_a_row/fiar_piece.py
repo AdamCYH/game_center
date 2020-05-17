@@ -6,22 +6,6 @@ class FiveInARowPiece(Piece):
     def __init__(self, player):
         super().__init__(player)
 
-    def __str__(self):
-        if isinstance(self, EmptyPiece):
-            return "+"
-        if isinstance(self, BlackPiece):
-            return "o"
-        if isinstance(self, WhitePiece):
-            return "x"
-
-    def __repr__(self):
-        if isinstance(self, EmptyPiece):
-            return "+"
-        if isinstance(self, BlackPiece):
-            return "o"
-        if isinstance(self, WhitePiece):
-            return "x"
-
 
 class EmptyPiece(FiveInARowPiece):
     def __init__(self):
@@ -30,6 +14,12 @@ class EmptyPiece(FiveInARowPiece):
         self.name = ""
         self.index = 0
 
+    def __str__(self):
+        return "+"
+
+    def __repr__(self):
+        return "+"
+
 
 class BlackPiece(FiveInARowPiece):
     def __init__(self, player):
@@ -37,9 +27,21 @@ class BlackPiece(FiveInARowPiece):
         self.name = "Black"
         self.index = 1
 
+    def __str__(self):
+        return "o"
+
+    def __repr__(self):
+        return "o"
+
 
 class WhitePiece(FiveInARowPiece):
     def __init__(self, player):
         super().__init__(player)
         self.name = "White"
         self.index = 2
+
+    def __str__(self):
+        return "x"
+
+    def __repr__(self):
+        return "x"
