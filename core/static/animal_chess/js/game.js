@@ -92,7 +92,7 @@ $(document).ready(function () {
                 clearMovablePiece();
                 clearSelected();
                 if (data.movable) {
-                    updateMovagblePiece(data);
+                    updateMovablePiece(data);
                     updateSelected(data);
                 }
                 updateBoard(data);
@@ -159,6 +159,9 @@ $(document).ready(function () {
 
     document.querySelector('#chat-message-submit').onclick = function (e) {
         const messageInputDom = $('#chat-message-input');
+        if (!messageInputDom.val()) {
+            return
+        }
         message = {
             'message': messageInputDom.val(),
             'action': CHAT_ACTION,
@@ -225,7 +228,7 @@ function updateBoard(data) {
     }
 }
 
-function updateMovagblePiece(data) {
+function updateMovablePiece(data) {
     clearMovablePiece();
     movableCoordinates = data.movable_coordinates;
     for (const idx in movableCoordinates) {

@@ -11,6 +11,14 @@ body {
     cursor: pointer;
 }
 
+.background1 {
+    background-color: #b7f0ff;  /* P1: light blue */
+}
+
+.background2 {
+    background-color: #ffdce3;  /* P2: light pink */
+}
+
 .animal-rank {
     width: 100%;
 }

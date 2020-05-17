@@ -77,7 +77,7 @@ class AnimalChessGame(Game):
             return False, 0, 0
 
     def validate_coordinates_value(self, x, y):
-        if 0 <= x <= self.board.width and 0 <= y <= self.board.height:
+        if 0 <= x < self.board.width and 0 <= y < self.board.height:
             return True, x, y
         else:
             print("Coordinates entered is not on board")
