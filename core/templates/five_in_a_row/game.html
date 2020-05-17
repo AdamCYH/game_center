@@ -1,0 +1,79 @@
+
+
+{% extends "core/game_base.html" %}
+
+{% load static %}
+
+{% block header %}
+    <link rel="stylesheet" href="{% static 'five_in_a_row/css/game.css' %}">
+{#    <script type="text/javascript" src="{% static 'animal_chess/js/game.js' %}"></script>#}
+{% endblock %}
+
+{% block content %}
+    <div class="top-container">
+        {% if not game.player2 %}
+            <p>Share the code to play together <span id="game-id">{{ game.id }}</span></p>
+        {% else %}
+            <p>Welcome to game <span id="game-id">{{ game.id }}</span></p>
+        {% endif %}
+    </div>
+    <div class="player-info-container">
+        <div hidden id="my-player-name">{{ request.session.name }}</div>
+        <div hidden id="my-player-id">{{ player_id }}</div>
+        <div hidden id="my-status">{{ status }}</div>
+        <div class="player1-container">
+            {% if game.player1 %}
+                <div id="player1-name" class="player-name inline-block">{{ game.player1.name }}</div>
+                <div id="player1-id" hidden>{{ game.player1.user_id }}</div>
+                {% if player_id == game.player1.user_id and not game.player1.ready%}
+                    <a class="ready readybtn inline-block" id="player-{{ game.player1.user_id }}"
+                       title="{{ game.player1.user_id }}">Not Ready</a>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="player2-container">
+            {% if game.player2 %}
+                <div id="player2-name" class="player-name inline-block">{{ game.player2.name }}</div>
+                <div id="player2-id" hidden>{{ game.player2.user_id }}</div>
+                {% if player_id == game.player2.user_id and not game.player2.ready %}
+                    <a class="ready readybtn inline-block" id="player-{{ game.player2.user_id }}"
+                       title="{{ game.player2.user_id }}">Not Ready</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="board-container">
+        {% include "five_in_a_row/board.html" %}
+    </div>
+    <div class="chat-container">
+        <textarea id="chat-log" readonly></textarea><br>
+        <input id="chat-message-input" type="text">
+        <input id="chat-message-submit" type="button" value="Send" class="button sendbtn">
+        {{ game.id|json_script:"room-name" }}
+    </div>
+
+
+{#    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Test</button>#}
+    <div id="id01" class="modal">
+        <div class="modal-content animate">
+            <div class="modal-top">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            </div>
+
+
+            <div class="modal-container" style="background-color:#f1f1f1">
+                <h2 id="win-message"> You Won!!!</h2>
+                <div class="btn-container">
+                    <a type="button" href="{% url 'animal-game' %}"
+                       class="button againbtn">
+                        Play Again
+                    </a>
+                    <a type="button" href="{% url 'home-page' %}"
+                       class="button leavebtn">
+                        Leave Game
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
