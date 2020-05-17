@@ -1,4 +1,4 @@
-from core.game.player import Player
+from games.player import Player
 
 
 class AnimalChessPlayer(Player):

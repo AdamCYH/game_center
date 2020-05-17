@@ -20,18 +20,18 @@
         </div>
     </div>
     <div class="card" style="width: 18rem;">
-        <img src="{% static '/icon/connect-four-logo.png' %}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Connect Four</h5>
-            <p class="card-text">Coming soon</p>
-            <a href="#" class="btn btn-secondary">Start Game</a>
-            <a href="#" class="btn btn-secondary">Join Game</a>
-        </div>
-    </div>
-    <div class="card" style="width: 18rem;">
         <img src="{% static '/icon/five-in-a-row.png' %}" class="card-img-top" alt="...">
         <div class="card-body">
             <h5 class="card-title">Five in a row</h5>
+            <p class="card-text">Coming soon</p>
+            <a href="{% url 'fiar-game' %}" class="btn btn-primary">Start Game</a>
+            <a href="{% url 'fiar-join-page' %}" class="btn btn-info">Join Game</a>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+        <img src="{% static '/icon/connect-four-logo.png' %}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Connect Four</h5>
             <p class="card-text">Coming soon</p>
             <a href="#" class="btn btn-secondary">Start Game</a>
             <a href="#" class="btn btn-secondary">Join Game</a>

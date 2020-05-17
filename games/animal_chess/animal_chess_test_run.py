@@ -1,8 +1,8 @@
 import datetime
 
-from core.game.animal_chess.animal_chess_game import AnimalChessGame
-from core.game.animal_chess.animal_chess_piece import AnimalChessPiece
-from core.game.animal_chess.animal_chess_player import AnimalChessPlayer
+from game import AnimalChessGame
+from game.animal_chess.animal_chess_piece import AnimalChessPiece
+from game import AnimalChessPlayer
 
 if __name__ == '__main__':
     game = AnimalChessGame()

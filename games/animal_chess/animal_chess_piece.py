@@ -1,5 +1,5 @@
-from core.game.piece import PieceCollection, Piece
-from core.game.player import Player
+from games.piece import PieceCollection, Piece
+from games.player import Player
 
 
 class AnimalChessPieceCollection(PieceCollection):

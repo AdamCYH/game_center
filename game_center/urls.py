@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.urls import path, include
 
-from core import views
+from core import views as core_view
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', views.home_page, name='home-page'),
-    path('animal-chess/', include('core.urls')),
+    path('', core_view.home_page, name='home-page'),
+    path('animal-chess/', include('core.animal_chess.urls')),
+    path('five-in-a-row/', include('core.five_in_a_row.urls')),
 ]

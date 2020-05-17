@@ -5,18 +5,17 @@
 {% load static %}
 
 {% block header %}
-    <link rel="stylesheet" href="{% static 'animal_chess/css/game.css' %}">
-    <script type="text/javascript" src="{% static 'animal_chess/js/game.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'five_in_a_row/css/game.css' %}">
+{#    <script type="text/javascript" src="{% static 'animal_chess/js/game.js' %}"></script>#}
 {% endblock %}
 
 {% block content %}
-    <div class="top-container background{{ player_num }}">
+    <div class="top-container">
         {% if not game.player2 %}
             <p>Share the code to play together <span id="game-id">{{ game.id }}</span></p>
         {% else %}
             <p>Welcome to game <span id="game-id">{{ game.id }}</span></p>
         {% endif %}
-        <img class="animal-rank" src="/static/icon/rank.png">
     </div>
     <div class="player-info-container">
         <div hidden id="my-player-name">{{ request.session.name }}</div>
@@ -44,7 +43,7 @@
         </div>
     </div>
     <div class="board-container">
-        {% include "animal_chess/board.html" %}
+        {% include "five_in_a_row/board.html" %}
     </div>
     <div class="chat-container">
         <textarea id="chat-log" readonly></textarea><br>

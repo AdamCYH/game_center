@@ -1,7 +1,9 @@
 import random
 
-from core.game.animal_chess.animal_chess_piece import AnimalChessPieceCollection, EmptyCard, AnimalChessPiece
-from core.game.board import Board
+from games.animal_chess.animal_chess_piece import AnimalChessPieceCollection, EmptyCard, AnimalChessPiece
+from games.board import Board
+
+PRINT_WIDTH = "{0: <15}"
 
 
 class AnimalChessBoard(Board):
@@ -142,3 +144,17 @@ class AnimalChessBoard(Board):
                         row_json.append({"piece": "hidden"})
             board_json.append(row_json)
         return board_json
+
+    def __str__(self):
+        if self.coordinates is None:
+            return "No board available"
+        board_string = "  "
+        for x in range(self.width):
+            board_string += PRINT_WIDTH.format(x)
+        board_string += "\n"
+        for r in range(len(self.coordinates)):
+            board_string += "{} ".format(r)
+            for c in range(len(self.coordinates[0])):
+                board_string += PRINT_WIDTH.format(str(self.coordinates[r][c]))
+            board_string += "\n"
+        return board_string
