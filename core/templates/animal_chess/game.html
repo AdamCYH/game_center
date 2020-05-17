@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="top-container">
+    <div class="top-container background{{ player_num }}">
         {% if not game.player2 %}
             <p>Share the code to play together <span id="game-id">{{ game.id }}</span></p>
         {% else %}

@@ -67,7 +67,9 @@ def access_game(request, game_id):
             if (game.player1 and game.player1.user_id == user_id) or (game.player2 and game.player2.user_id == user_id):
                 context = {"game": game,
                            "player_id": user_id,
-                           "status": "reconnect"}
+                           "status": "reconnect",
+                           "player_num": 1 if (game.player1 and game.player1.user_id == user_id) else 2,
+                           }
                 if not game.started:
                     context['status'] = 'join'
                 return render(request, 'animal_chess/game.html', context)
@@ -80,7 +82,9 @@ def access_game(request, game_id):
             else:
                 request.session['code'] = game.id
                 context = {"game": game,
-                           "player_id": user_id}
+                           "player_id": user_id,
+                           "player_num": 1 if (game.player1 and game.player1.user_id == user_id) else 2,
+                          }
                 game.player2 = AnimalChessPlayer(request.session.session_key, name)
                 return render(request, 'animal_chess/game.html', context)
         else:
