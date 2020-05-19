@@ -25,7 +25,7 @@ class FiveInARowGame(Game):
         self.board = FiveInARowBoard()
         self.player1.my_turn = True
         self.turn = self.player1
-
+        self.board.init_board(self.player1, self.player2)
         return
 
     def join_player(self, player):
@@ -36,7 +36,6 @@ class FiveInARowGame(Game):
             return "Waiting for player to join."
         if not self.player1.ready or not self.player2.ready:
             return "Please click ready before starting."
-        self.board.init_board(self.player1, self.player2)
         self.start_time = datetime.datetime.now()
         self.started = True
         # TODO randomize player order
