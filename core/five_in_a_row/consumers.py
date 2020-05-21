@@ -3,7 +3,8 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
-from core.five_in_a_row.views import games
+from core.five_in_a_row.views import games, start_new_game
+from games.five_in_a_row.fiar_player import FiveInARowPlayer
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -68,6 +69,11 @@ class ChatConsumer(WebsocketConsumer):
                                 message.update({"winner": winner.name})
 
                     message.update({'coordinate': [x, y]})
+            elif action == 'play_again':
+                game = start_new_game(player_name, player_id)
+                games[game.id] = game
+                message.update({'game_id': game.id})
+
             board = game.board.serialize()
             print(game.board)
             message.update({

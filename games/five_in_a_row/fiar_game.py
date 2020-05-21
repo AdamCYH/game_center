@@ -57,7 +57,8 @@ class FiveInARowGame(Game):
             for direction in two_side_dirs:
                 dest_x = src_x + direction[0]
                 dest_y = src_y + direction[1]
-                piece = self.board.coordinates[dest_x][dest_y]
+                if self.board.is_in_boundary(dest_x, dest_y):
+                    piece = self.board.coordinates[dest_x][dest_y]
 
                 while self.board.is_in_boundary(dest_x, dest_y) and piece.player == player:
                     count += 1

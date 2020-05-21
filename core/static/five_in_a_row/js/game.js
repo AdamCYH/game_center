@@ -3,13 +3,14 @@ const JOIN_ACTION = 'join';
 const READY_ACTION = 'ready';
 const RECONNECT_ACTION = 'reconnect';
 const ESTABLISH_ACTION = 'establish';
+const PLAY_AGAIN_ACTION = 'play_again';
 
 const iconPath = "/static/five_in_a_row/img/";
 
 let gameStarted = false;
-
+let gameId = "";
 $(document).ready(function () {
-    const gameId = $("#game-id").html();
+    gameId = $("#game-id").html();
     chatLog = $("#chat-log");
 
     myPlayerName = $("#my-player-name").html();
@@ -86,6 +87,14 @@ $(document).ready(function () {
                 gameStarted = false;
                 updateBoard(data);
                 finishGame(data);
+                break;
+            case 'play_again':
+                if (data.player_id === myPlayerId) {
+                    window.location.href = '/five-in-a-row/game/' + data.game_id;
+                } else {
+                    $("#win-message").html(data.player_name + " wants to play again.");
+                    $("#yes").attr("href", "/five-in-a-row/game/" + data.game_id);
+                }
                 break;
         }
 
@@ -210,4 +219,14 @@ function getCoordinate(x, y) {
 function finishGame(data) {
     $("#win-message").html(data.winner + " Won!!! Congratulations!");
     $("#id01").css("display", "block")
+}
+
+function playAgain() {
+    message = {
+        'player_id': myPlayerId,
+        'player_name': myPlayerName,
+        'gameID': gameId,
+        'action': PLAY_AGAIN_ACTION
+    };
+    send(message);
 }

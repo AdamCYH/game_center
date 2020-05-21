@@ -65,11 +65,11 @@
             <div class="modal-container" style="background-color:#f1f1f1">
                 <h2 id="win-message"> You Won!!!</h2>
                 <div class="btn-container">
-                    <a type="button" href="{% url 'fiar-game' %}"
+                    <a id="yes" type="button" href="javascript:playAgain();"
                        class="button againbtn">
                         Play Again
                     </a>
-                    <a type="button" href="{% url 'home-page' %}"
+                    <a id="no" type="button" href="{% url 'home-page' %}"
                        class="button leavebtn">
                         Leave Game
                     </a>
