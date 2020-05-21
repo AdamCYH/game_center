@@ -205,3 +205,8 @@ function updateBoard(data) {
 function getCoordinate(x, y) {
     return x + "-" + y;
 }
+
+function finishGame(data) {
+    $("#win-message").html(data.winner + " Won!!! Congratulations!");
+    $("#id01").css("display", "block")
+}
