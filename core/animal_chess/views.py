@@ -19,7 +19,9 @@ class AnimalChessGameView(View):
                     game = games[code]
                     if not game.finished:
                         context = {"code": game.id,
-                                   "game_in_progress": True}
+                                   "game_in_progress": True,
+                                   "continue_game_url": "/animal-chess/game/" + code,
+                                   "new_game_url": "/animal-chess/game/new"}
                         return render(request, 'core/home.html', context)
             return redirect("/animal-chess/game/new")
 

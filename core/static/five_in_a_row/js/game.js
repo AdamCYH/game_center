@@ -1,6 +1,7 @@
 const CHAT_ACTION = 'chat';
 const JOIN_ACTION = 'join';
 const READY_ACTION = 'ready';
+const RECONNECT_ACTION = 'reconnect';
 const ESTABLISH_ACTION = 'establish';
 
 const iconPath = "/static/five_in_a_row/img/";
