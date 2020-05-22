@@ -4,6 +4,8 @@ const READY_ACTION = 'ready';
 const SELECT_ACTION = 'select';
 const MOVE_ACTION = 'move';
 const RECONNECT_ACTION = 'reconnect';
+const PLAY_AGAIN_ACTION = 'play_again';
+
 const iconPath = "/static/icon/";
 
 let myPlayerName = "";
@@ -18,9 +20,10 @@ let message = "";
 let gameStarted = false;
 let movableCoordinates = [];
 let stagingPiece = null;
+let gameId;
 
 $(document).ready(function () {
-    const gameId = $("#game-id").html();
+    gameId = $("#game-id").html();
     chatLog = $("#chat-log");
 
     myPlayerName = $("#my-player-name").html();
@@ -110,6 +113,14 @@ $(document).ready(function () {
                 clearMovablePiece();
                 updateBoard(data);
                 finishGame(data);
+                break;
+            case 'play_again':
+                if (data.player_id === myPlayerId) {
+                    window.location.href = '/animal-chess/game/' + data.game_id;
+                } else {
+                    $("#win-message").html(data.player_name + " wants to play again.");
+                    $("#yes").attr("href", "/animal-chess/game/" + data.game_id);
+                }
                 break;
         }
 
@@ -265,4 +276,14 @@ function joinPlayer(player) {
 function finishGame(data) {
     $("#win-message").html(data.winner + " Won!!! Congratulations!");
     $("#id01").css("display", "block")
+}
+
+function playAgain() {
+    message = {
+        'player_id': myPlayerId,
+        'player_name': myPlayerName,
+        'gameID': gameId,
+        'action': PLAY_AGAIN_ACTION
+    };
+    send(message);
 }
