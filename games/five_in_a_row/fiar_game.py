@@ -25,7 +25,7 @@ class FiveInARowGame(Game):
         self.board = FiveInARowBoard()
         self.player1.my_turn = True
         self.turn = self.player1
-
+        self.board.init_board(self.player1, self.player2)
         return
 
     def join_player(self, player):
@@ -36,7 +36,6 @@ class FiveInARowGame(Game):
             return "Waiting for player to join."
         if not self.player1.ready or not self.player2.ready:
             return "Please click ready before starting."
-        self.board.init_board(self.player1, self.player2)
         self.start_time = datetime.datetime.now()
         self.started = True
         # TODO randomize player order
@@ -58,7 +57,8 @@ class FiveInARowGame(Game):
             for direction in two_side_dirs:
                 dest_x = src_x + direction[0]
                 dest_y = src_y + direction[1]
-                piece = self.board.coordinates[dest_x][dest_y]
+                if self.board.is_in_boundary(dest_x, dest_y):
+                    piece = self.board.coordinates[dest_x][dest_y]
 
                 while self.board.is_in_boundary(dest_x, dest_y) and piece.player == player:
                     count += 1

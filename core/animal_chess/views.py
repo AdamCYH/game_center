@@ -19,7 +19,9 @@ class AnimalChessGameView(View):
                     game = games[code]
                     if not game.finished:
                         context = {"code": game.id,
-                                   "game_in_progress": True}
+                                   "game_in_progress": True,
+                                   "continue_game_url": "/animal-chess/game/" + code,
+                                   "new_game_url": "/animal-chess/game/new"}
                         return render(request, 'core/home.html', context)
             return redirect("/animal-chess/game/new")
 
@@ -94,5 +96,6 @@ def start_new_game(name, user_id):
 
 def clean_up_games():
     for g in list(games):
-        if games[g].finished:
+        game = games[g]
+        if game.finished or not game.within_game_time_limit():
             del games[g]

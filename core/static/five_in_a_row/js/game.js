@@ -1,27 +1,14 @@
 const CHAT_ACTION = 'chat';
 const JOIN_ACTION = 'join';
 const READY_ACTION = 'ready';
-const SELECT_ACTION = 'select';
-const MOVE_ACTION = 'move';
 const RECONNECT_ACTION = 'reconnect';
+const ESTABLISH_ACTION = 'establish';
 const PLAY_AGAIN_ACTION = 'play_again';
 
-const iconPath = "/static/icon/";
+const iconPath = "/static/five_in_a_row/img/";
 
-let myPlayerName = "";
-let myPlayerId = "";
-let player1Id;
-let player2Id;
-let myStatus;
-
-let chatSocket = null;
-let chatLog = null;
-let message = "";
 let gameStarted = false;
-let movableCoordinates = [];
-let stagingPiece = null;
-let gameId;
-
+let gameId = "";
 $(document).ready(function () {
     gameId = $("#game-id").html();
     chatLog = $("#chat-log");
@@ -35,7 +22,7 @@ $(document).ready(function () {
     chatSocket = new WebSocket(
         'ws://'
         + window.location.host
-        + '/ws/animal-chess-game/'
+        + '/ws/five-in-a-row-game/'
         + gameId
         + '/'
     );
@@ -88,38 +75,25 @@ $(document).ready(function () {
             case 'start game':
                 gameStarted = true;
                 $(".ready").remove();
+                updatePieceColor(data);
                 updateTurn(data);
                 updateChat(data);
                 break;
-            case 'select':
-                clearMovablePiece();
-                clearSelected();
-                if (data.movable) {
-                    updateMovablePiece(data);
-                    updateSelected(data);
-                }
-                updateBoard(data);
-                updateTurn(data);
-                break;
-            case 'move':
-                clearSelected();
-                clearMovablePiece();
+            case 'establish':
                 updateBoard(data);
                 updateTurn(data);
                 break;
             case 'Wins!':
                 gameStarted = false;
-                clearSelected();
-                clearMovablePiece();
                 updateBoard(data);
                 finishGame(data);
                 break;
             case 'play_again':
                 if (data.player_id === myPlayerId) {
-                    window.location.href = '/animal-chess/game/' + data.game_id;
+                    window.location.href = '/five-in-a-row/game/' + data.game_id;
                 } else {
                     $("#win-message").html(data.player_name + " wants to play again.");
-                    $("#yes").attr("href", "/animal-chess/game/" + data.game_id);
+                    $("#yes").attr("href", "/five-in-a-row/game/" + data.game_id);
                 }
                 break;
         }
@@ -138,21 +112,14 @@ $(document).ready(function () {
         }
     };
 
-    $(".piece").on('click', function () {
+    $(".grid").on('click', function () {
         message = {
             'player_id': myPlayerId,
             'player_name': myPlayerName,
             'gameID': gameId,
             'coordinate': this.id,
+            'action': ESTABLISH_ACTION
         };
-        if ($(this).hasClass("hidden") || movableCoordinates.length === 0) {
-            message['action'] = SELECT_ACTION;
-            stagingPiece = this.id
-        } else {
-            message['action'] = MOVE_ACTION;
-            message['src_coordinate'] = stagingPiece;
-        }
-        clearMovablePiece();
         if (gameStarted) {
             send(message);
         }
@@ -202,13 +169,28 @@ function updateReadyStatus(data) {
 
 }
 
+function joinPlayer(player) {
+    $(".player2-container").append("<div class=\"player-piece-info inline-block\"><img class=\"player-piece\" id=\"player2-piece\"></div>");
+    $(".player2-container").append("<div id=\"player2-name\" class=\"player-name inline-block\">" + player + "</div>");
+}
+
+function updatePieceColor(data) {
+    if (data[player1Id] === "Black") {
+        $("#player1-piece").attr('src', "/static/five_in_a_row/img/black-piece.png");
+        $("#player2-piece").attr('src', "/static/five_in_a_row/img/white-piece.png");
+    } else {
+        $("#player1-piece").attr('src', "/static/five_in_a_row/img/white-piece.png");
+        $("#player2-piece").attr('src', "/static/five_in_a_row/img/black-piece.png");
+    }
+}
+
 function updateTurn(data) {
     if (data.turn === player1Id) {
-        $("#player1-name").addClass("player1");
-        $("#player2-name").removeClass("player2");
+        $("#player1-piece").addClass("piece-lg");
+        $("#player2-piece").removeClass("piece-lg");
     } else {
-        $("#player2-name").addClass("player2");
-        $("#player1-name").removeClass("player1");
+        $("#player2-piece").addClass("piece-lg");
+        $("#player1-piece").removeClass("piece-lg");
 
     }
 }
@@ -219,58 +201,19 @@ function updateBoard(data) {
         for (const col in board[row]) {
             const coordinate = getCoordinate(row, col);
             let piece = $("#" + coordinate);
-            piece.children().removeClass("player1");
-            piece.children().removeClass("player2");
-            if (board[row][col].piece === "empty") {
-                piece.children().attr("src", iconPath + "empty.png");
-            } else if (board[row][col].piece === "hidden") {
-                piece.addClass("hidden");
-                piece.children().attr("src", iconPath + "hidden.png")
-            } else {
-                piece.children().attr("src", iconPath + board[row][col].piece + ".png");
-                piece.removeClass("hidden");
-                if (board[row][col].player === player1Id) {
-                    piece.children().addClass("player1");
-                } else {
-                    piece.children().addClass("player2");
-                }
+            if (board[row][col].piece === "Black") {
+                piece.empty();
+                piece.append("<img class='piece' src='" + iconPath + "black-piece.png" + "'>");
+            } else if (board[row][col].piece === "White") {
+                piece.empty();
+                piece.append("<img class='piece' src='" + iconPath + "white-piece.png" + "'>");
             }
         }
     }
 }
 
-function updateMovablePiece(data) {
-    clearMovablePiece();
-    movableCoordinates = data.movable_coordinates;
-    for (const idx in movableCoordinates) {
-        const coordinate = getCoordinate(movableCoordinates[idx][0], movableCoordinates[idx][1]);
-        $("#" + coordinate).css("opacity", 0.5);
-    }
-}
-
-function updateSelected(data) {
-    const coordinate = getCoordinate(data.coordinate[0], data.coordinate[1]);
-    $("#" + coordinate).children().addClass("selected-card")
-}
-
-function clearSelected() {
-    $(".selected-card").removeClass("selected-card");
-}
-
-function clearMovablePiece() {
-    for (const idx in movableCoordinates) {
-        const coordinate = getCoordinate(movableCoordinates[idx][0], movableCoordinates[idx][1]);
-        $("#" + coordinate).css("opacity", 1);
-    }
-    movableCoordinates = [];
-}
-
 function getCoordinate(x, y) {
     return x + "-" + y;
-}
-
-function joinPlayer(player) {
-    $(".player2-container").append("<div id=\"player2-name\" class=\"player-name inline-block\">" + player + "</div>");
 }
 
 function finishGame(data) {

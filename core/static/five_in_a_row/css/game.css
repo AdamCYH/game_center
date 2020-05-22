@@ -5,15 +5,17 @@ body {
 
 .board-container {
     width: 100%;
-    margin: 50px 0 0 0;
+    margin: 40px 0 0 0;
     position: relative;
     background-image: url(/static/five_in_a_row/img/fiar_board.png);
     background-size: cover;
     padding-top: 100%;
 }
-.board-container *{
+
+.board-container * {
     box-sizing: border-box;
 }
+
 .board {
     position: absolute;
     top: 0;
@@ -28,6 +30,17 @@ body {
     margin: auto;
 }
 
+.grid {
+    position: relative;
+}
+
+
+.piece {
+    position: absolute;
+    width: 100%;
+    top: 0;
+}
+
 .readybtn {
     background-color: #ff8383;
     color: #ffffff;
@@ -37,6 +50,14 @@ body {
 }
 
 .player-info-container {
+    width: 100%;
+}
+
+.player-piece-info {
+    width: 30px;
+}
+
+.player-piece {
     width: 100%;
 }
 
@@ -107,3 +128,4 @@ body {
     width: auto;
     background-color: #ff8383;
 }
+

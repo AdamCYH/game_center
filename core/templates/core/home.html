@@ -52,11 +52,11 @@
                 <div class="modal-container" style="background-color:#f1f1f1">
                     <h5 id="win-message">You have a game in progress, do you want to continue?</h5>
                     <div class="btn-container">
-                        <a type="button" href="{% url 'animal-access-game' game_id=code %}"
+                        <a type="button" href="{{ continue_game_url }}"
                            class="button againbtn">
                             Yes
                         </a>
-                        <a type="button" href="{% url 'animal-access-game' game_id='new' %}"
+                        <a type="button" href="{{ new_game_url }}"
                            class="button leavebtn">
                             Start New
                         </a>

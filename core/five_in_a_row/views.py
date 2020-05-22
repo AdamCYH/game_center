@@ -19,7 +19,9 @@ class FiveInARowView(View):
                     game = games[code]
                     if not game.finished:
                         context = {"code": game.id,
-                                   "game_in_progress": True}
+                                   "game_in_progress": True,
+                                   "continue_game_url": "/five-in-a-row/game/" + code,
+                                   "new_game_url": "/five-in-a-row/game/new"}
                         return render(request, 'core/home.html', context)
             return redirect("/five-in-a-row/game/new")
 

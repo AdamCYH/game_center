@@ -3,7 +3,7 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
-from core.animal_chess.views import games
+from core.animal_chess.views import games, start_new_game
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -78,6 +78,10 @@ class ChatConsumer(WebsocketConsumer):
                             else:
                                 message.update({"winner": winner.name})
                     message.update({'coordinate': [src_x, src_y]})
+            elif action == 'play_again':
+                game = start_new_game(player_name, player_id)
+                games[game.id] = game
+                message.update({'game_id': game.id})
             board = game.board.serialize()
             print(game.board)
             message.update({

@@ -49,6 +49,16 @@ class FiveInARowBoard(Board):
             return False
         return True
 
+    def serialize(self):
+        board_json = []
+        for row in self.coordinates:
+            row_json = []
+            for col in row:
+                row_json.append({"piece": col.name,
+                                 "player": col.player.user_id})
+            board_json.append(row_json)
+        return board_json
+
     def __str__(self):
         if self.coordinates is None:
             return "No board available"
