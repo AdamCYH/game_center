@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="form-container">
-        <form name="join_form" action="{% url 'animal-game' %}" method="POST">
+        <form name="join_form" action="{{ game_name }}game/" method="POST">
             <table>
                 <tr>
                     <td>Game Code:</td>

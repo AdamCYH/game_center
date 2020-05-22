@@ -23,7 +23,8 @@ class UserView(View):
 
 def join_page(request):
     if 'name' in request.session:
-        return render(request, 'core/join.html')
+        context = {'game_name': resolve_path(request, "")}
+        return render(request, 'core/join.html', context)
     else:
         return redirect(resolve_path(request, "user?next=") + resolve_path(request, "join_game"))
 

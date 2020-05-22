@@ -56,7 +56,7 @@ class AnimalChessGame(Game):
         self.board.process_piece_move(src_piece, dest_piece)
 
     def within_game_time_limit(self):
-        if (datetime.datetime.now() - self.start_time).seconds < self.max_duration:
+        if self.start_time is None or (datetime.datetime.now() - self.start_time).seconds < self.max_duration:
             return True
         else:
             return False
