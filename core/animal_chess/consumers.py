@@ -82,6 +82,7 @@ class ChatConsumer(WebsocketConsumer):
                 game = start_new_game(player_name, player_id)
                 games[game.id] = game
                 message.update({'game_id': game.id})
+                print("::::;", game.id)
             board = game.board.serialize()
             print(game.board)
             message.update({
