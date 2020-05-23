@@ -271,8 +271,11 @@ function getCoordinate(x, y) {
 }
 
 function joinPlayer(player) {
-    $(".player2-container").empty();
-    $(".player2-container").append("<div id=\"player2-name\" class=\"player-name float-right inline-block\">" + player + "</div>");
+    if ($("#my-player-idx").html() !== "2") {
+        console.log("not 2");
+        $(".player2-container").empty();
+        $(".player2-container").append("<div id=\"player2-name\" class=\"player-name float-right inline-block\">" + player + "</div>");
+    }
 }
 
 function finishGame(data) {
