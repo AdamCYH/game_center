@@ -204,14 +204,15 @@ function updateReadyStatus(data) {
 
 function updateTurn(data) {
     if (data.turn === player1Id) {
-        $("#player1-name").addClass("player1");
-        $("#player2-name").removeClass("player2");
+        $(".player1-container").addClass("player1");
+        $(".player2-container").removeClass("player2");
     } else {
-        $("#player2-name").addClass("player2");
-        $("#player1-name").removeClass("player1");
+        $(".player2-container").addClass("player2");
+        $(".player1-container").removeClass("player1");
 
     }
 }
+
 
 function updateBoard(data) {
     let board = data.board;
@@ -270,7 +271,8 @@ function getCoordinate(x, y) {
 }
 
 function joinPlayer(player) {
-    $(".player2-container").append("<div id=\"player2-name\" class=\"player-name inline-block\">" + player + "</div>");
+    $(".player2-container").empty();
+    $(".player2-container").append("<div id=\"player2-name\" class=\"player-name float-right inline-block\">" + player + "</div>");
 }
 
 function finishGame(data) {

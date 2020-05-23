@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="top-container background{{ player_num }}">
+    <div class="top-container">
         {% if not game.player2 %}
             <p>Share the code to play together <span id="game-id">{{ game.id }}</span></p>
         {% else %}
@@ -34,12 +34,12 @@
         </div>
         <div class="player2-container">
             {% if game.player2 %}
-                <div id="player2-name" class="player-name inline-block">{{ game.player2.name }}</div>
-                <div id="player2-id" hidden>{{ game.player2.user_id }}</div>
-                {% if player_id == game.player2.user_id and not game.player2.ready %}
-                    <a class="ready readybtn inline-block" id="player-{{ game.player2.user_id }}"
-                       title="{{ game.player2.user_id }}">Not Ready</a>
-                {% endif %}
+                    <div id="player2-name" class="player-name inline-block float-right">{{ game.player2.name }}</div>
+                    <div id="player2-id" hidden>{{ game.player2.user_id }}</div>
+                    {% if player_id == game.player2.user_id and not game.player2.ready %}
+                        <a class="ready readybtn inline-block float-right" id="player-{{ game.player2.user_id }}"
+                           title="{{ game.player2.user_id }}">Not Ready</a>
+                    {% endif %}
             {% endif %}
         </div>
     </div>

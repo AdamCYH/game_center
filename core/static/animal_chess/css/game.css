@@ -12,11 +12,11 @@ body {
 }
 
 .background1 {
-    background-color: #b7f0ff;  /* P1: light blue */
+    background-color: #b7f0ff; /* P1: light blue */
 }
 
 .background2 {
-    background-color: #ffdce3;  /* P2: light pink */
+    background-color: #ffdce3; /* P2: light pink */
 }
 
 .animal-rank {
@@ -29,6 +29,7 @@ body {
 
 .player1-container {
     float: left;
+    width: 50%;
 }
 
 .player-name {
@@ -36,8 +37,10 @@ body {
     border-radius: 15px;
 }
 
+
 .player2-container {
     float: right;
+    width: 50%;
 }
 
 
@@ -48,6 +51,7 @@ body {
 .player2 {
     background-color: #ffdce3;
 }
+
 
 .board-container {
     width: 100%;
