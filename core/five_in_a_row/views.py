@@ -58,7 +58,9 @@ def access_game(request, game_id):
             if (game.player1 and game.player1.user_id == user_id) or (game.player2 and game.player2.user_id == user_id):
                 context = {"game": game,
                            "player_id": user_id,
-                           "status": "reconnect"}
+                           "status": "reconnect",
+                           "player_num": 1 if (game.player1 and game.player1.user_id == user_id) else 2
+                           }
                 if not game.started:
                     context['status'] = 'join'
                 return render(request, 'five_in_a_row/game.html', context)

@@ -170,9 +170,11 @@ function updateReadyStatus(data) {
 }
 
 function joinPlayer(player) {
-    $(".player2-container").empty();
-    $(".player2-container").append("<div class=\"player-piece-info inline-block\"><img class=\"player-piece\" id=\"player2-piece\"></div>");
-    $(".player2-container").append("<div id=\"player2-name\" class=\"player-name inline-block\">" + player + "</div>");
+    if ($("#my-player-num").html() !== "2") {
+        $(".player2-container").empty();
+        $(".player2-container").append("<div class=\"player-piece-info inline-block\"><img class=\"player-piece\" id=\"player2-piece\"></div>");
+        $(".player2-container").append("<div id=\"player2-name\" class=\"player-name inline-block\">" + player + "</div>");
+    }
 }
 
 function updatePieceColor(data) {

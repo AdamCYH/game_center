@@ -21,7 +21,7 @@
     <div class="player-info-container">
         <div hidden id="my-player-name">{{ request.session.name }}</div>
         <div hidden id="my-player-id">{{ player_id }}</div>
-    <div hidden id="my-player-idx">{{ player_num }}</div>
+        <div hidden id="my-player-num">{{ player_num }}</div>
         <div hidden id="my-status">{{ status }}</div>
         <div class="player1-container">
             {% if game.player1 %}
@@ -35,12 +35,12 @@
         </div>
         <div class="player2-container">
             {% if game.player2 %}
-                    <div id="player2-name" class="player-name inline-block float-right">{{ game.player2.name }}</div>
-                    <div id="player2-id" hidden>{{ game.player2.user_id }}</div>
-                    {% if player_id == game.player2.user_id and not game.player2.ready %}
-                        <a class="ready readybtn inline-block float-right" id="player-{{ game.player2.user_id }}"
-                           title="{{ game.player2.user_id }}">Not Ready</a>
-                    {% endif %}
+                <div id="player2-name" class="player-name inline-block float-right">{{ game.player2.name }}</div>
+                <div id="player2-id" hidden>{{ game.player2.user_id }}</div>
+                {% if player_id == game.player2.user_id and not game.player2.ready %}
+                    <a class="ready readybtn inline-block float-right" id="player-{{ game.player2.user_id }}"
+                       title="{{ game.player2.user_id }}">Not Ready</a>
+                {% endif %}
             {% endif %}
         </div>
     </div>
